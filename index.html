@@ -98,6 +98,13 @@
     .badge.goal{ color:#7dd3fc; }
     .badge.ast{ color:#a7f3d0; }
 
+    /* COLUMN LABELS */
+    .labels{display:flex; align-items:center; gap:12px; margin:2px 2px 10px; padding:6px 10px; font-size:12px; color:var(--tx-dim);
+      border:1px dashed var(--divider); border-radius:12px; background:rgba(21,26,42,.35)}
+    .labels .lab-left{font-weight:700; letter-spacing:.3px}
+    .labels .lab-right{margin-left:auto; font-weight:800; letter-spacing:.4px}
+    .labels.trophies .lab-right::before{content:""}
+
     /* SECTION GROUPS */
     .section{ margin-top:22px; }
     .section h3{ display:flex; align-items:center; gap:10px; color:var(--brand); font-size:16px; letter-spacing:.3px; margin:10px 0 10px; }
@@ -158,6 +165,7 @@
           <span class="muted">(21st Century)</span>
         </div>
         <div class="content">
+          <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Goals • Assists • Trophies</span></div>
           <ol class="rank" aria-label="Top 5 Soccer Players">
             <li>
               <span class="name">Lionel Messi</span>
@@ -226,6 +234,7 @@
               <span class="sum-meta">Top 21st‑century</span>
             </summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Manuel Neuer</span><span class="badges"><span class="badge trophy">32</span></span></li>
                 <li><span class="name">Iker Casillas</span><span class="badges"><span class="badge trophy">24</span></span></li>
@@ -239,6 +248,7 @@
           <details>
             <summary><span class="sum-title">Left Backs (LB)</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Marcelo</span><span class="badges"><span class="badge trophy">27</span></span></li>
                 <li><span class="name">Jordi Alba</span><span class="badges"><span class="badge trophy">20</span></span></li>
@@ -252,6 +262,7 @@
           <details>
             <summary><span class="sum-title">Center Backs (CB)</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Sergio Ramos</span><span class="badges"><span class="badge trophy">26</span></span></li>
                 <li><span class="name">Virgil van Dijk</span><span class="badges"><span class="badge trophy">8</span></span></li>
@@ -265,6 +276,7 @@
           <details>
             <summary><span class="sum-title">Right Backs (RB)</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Dani Alves</span><span class="badges"><span class="badge trophy">43</span></span></li>
                 <li><span class="name">Kyle Walker</span><span class="badges"><span class="badge trophy">12</span></span></li>
@@ -278,6 +290,7 @@
           <details>
             <summary><span class="sum-title">CDM — Defensive Midfield</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Sergio Busquets</span><span class="badges"><span class="badge trophy">32</span></span></li>
                 <li><span class="name">N'Golo Kanté</span><span class="badges"><span class="badge trophy">13</span></span></li>
@@ -291,6 +304,7 @@
           <details>
             <summary><span class="sum-title">CM — Central Midfield</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Luka Modrić</span><span class="badges"><span class="badge trophy">23</span></span></li>
                 <li><span class="name">Xavi Hernandez</span><span class="badges"><span class="badge trophy">31</span></span></li>
@@ -304,6 +318,7 @@
           <details>
             <summary><span class="sum-title">CAM — Attacking Midfield</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Andrés Iniesta</span><span class="badges"><span class="badge trophy">37</span></span></li>
                 <li><span class="name">Zinedine Zidane</span><span class="badges"><span class="badge trophy">15</span></span></li>
@@ -317,6 +332,7 @@
           <details>
             <summary><span class="sum-title">LM — Left Midfield</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Franck Ribéry</span><span class="badges"><span class="badge trophy">25</span></span></li>
                 <li><span class="name">David Silva</span><span class="badges"><span class="badge trophy">17</span></span></li>
@@ -330,6 +346,7 @@
           <details>
             <summary><span class="sum-title">RM — Right Midfield</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Riyad Mahrez</span><span class="badges"><span class="badge trophy">13</span></span></li>
                 <li><span class="name">Ángel Di María</span><span class="badges"><span class="badge trophy">26</span></span></li>
@@ -343,6 +360,7 @@
           <details>
             <summary><span class="sum-title">LW — Left Wing</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Cristiano Ronaldo</span><span class="badges"><span class="badge trophy">35</span></span></li>
                 <li><span class="name">Ronaldinho</span><span class="badges"><span class="badge trophy">17</span></span></li>
@@ -356,6 +374,7 @@
           <details>
             <summary><span class="sum-title">RW — Right Wing</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Lionel Messi</span><span class="badges"><span class="badge trophy">44</span></span></li>
                 <li><span class="name">Mohamed Salah</span><span class="badges"><span class="badge trophy">10</span></span></li>
@@ -369,6 +388,7 @@
           <details>
             <summary><span class="sum-title">CF — Centre Forward</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Karim Benzema</span><span class="badges"><span class="badge trophy">26</span></span></li>
                 <li><span class="name">Wayne Rooney</span><span class="badges"><span class="badge trophy">17</span></span></li>
@@ -382,6 +402,7 @@
           <details>
             <summary><span class="sum-title">ST — Strikers</span><span class="sum-meta">Top 21st‑century</span></summary>
             <div class="panel">
+              <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Ronaldo Nazário</span><span class="badges"><span class="badge trophy">15</span></span></li>
                 <li><span class="name">Thierry Henry</span><span class="badges"><span class="badge trophy">19</span></span></li>
@@ -422,3 +443,5 @@
   </script>
 </body>
 </html>
+
+
