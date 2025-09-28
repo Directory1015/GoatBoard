@@ -5,6 +5,23 @@ function allDetails(){ return Array.from(document.querySelectorAll('details')); 
 expandAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = true));
 collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = false));
 
+// ---- Debug banner
+console.log('GOATBoard app.js loaded');
+
+// ---- Wait-for-html2canvas helper (prevents "renderer not found" if it loads slowly)
+console.log("html2canvas available at load?", typeof window.html2canvas);
+function whenHtml2CanvasReady(fn, timeoutMs = 5000) {
+  if (window.html2canvas) { fn(); return; }
+  const started = Date.now();
+  const iv = setInterval(() => {
+    if (window.html2canvas) { clearInterval(iv); fn(); }
+    else if (Date.now() - started > timeoutMs) { 
+      clearInterval(iv); 
+      alert('html2canvas still not available. Check that html2canvas.min.js is next to index.html and linked correctly.');
+    }
+  }, 150);
+}
+
 // === GOATBoard Builder + Poll + JPEG Share ===
 (function(){
   const defaultPool = [
@@ -199,6 +216,7 @@ collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = f
   async function generateJPEGBlob(){
     populateShareCard();
     if (!window.html2canvas) {
+      // If somehow still not present, stop gracefully.
       alert('Image renderer not found. Place html2canvas.min.js next to index.html.');
       return null;
     }
@@ -223,7 +241,10 @@ collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = f
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
   }
-  shareBtn.addEventListener('click', shareOrDownloadJPEG);
+
+  // IMPORTANT: wait for html2canvas before trying to share
+  // (prevents the "renderer not found" popup on first clicks)
+  shareBtn.addEventListener('click', () => whenHtml2CanvasReady(shareOrDownloadJPEG));
 
   // Init
   renderTop5();
