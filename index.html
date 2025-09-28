@@ -71,6 +71,23 @@
     /* LAYOUT */
     .grid{ display:grid; gap:22px; grid-template-columns: 1fr; }
     @media (min-width: 880px){ .grid{ grid-template-columns: 1.2fr .8fr; } }
+    @media (min-width: 1200px){ .grid{ grid-template-columns: 1.1fr .9fr .8fr; } }
+
+    /* BUILDER */
+    .stack{ display:grid; gap:14px; }
+    .slot{ display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px dashed var(--divider); border-radius: var(--radius-lg); background:#0f1420; color:var(--tx-dim); }
+    .slot .index{ width:22px; text-align:center; font-weight:800; opacity:.75 }
+    .slot .who{ flex:1; font-weight:700; color:var(--tx) }
+    .slot .actions{ display:flex; gap:6px }
+    .pill-btn{ border:1px solid var(--divider); background:#151a27; color:var(--tx); border-radius:10px; padding:6px 8px; font-size:12px; font-weight:700; cursor:pointer }
+    .pill-btn:hover{ background:#1a2030 }
+    .pool-list{ display:grid; gap:8px; }
+    .pool-item{ display:flex; align-items:center; gap:10px; border:1px solid var(--divider); background:linear-gradient(180deg,#151a2a,#111625); border-radius: var(--radius-lg); padding:8px 10px; }
+    .pool-item .name{ font-weight:700 }
+    .pool-item .add{ margin-left:auto }
+    .builder-input{ display:flex; gap:8px; }
+    .builder-input input{ flex:1; background:#0f1420; border:1px solid var(--divider); border-radius:12px; padding:10px 12px; color:var(--tx) }
+    .builder-input input::placeholder{ color:var(--tx-dim) }
 
     /* CARD */
     .card{
@@ -414,6 +431,34 @@
           </details>
         </div>
       </section>
+
+      <!-- BUILDER ASIDE -->
+      <aside>
+        <section class="card">
+          <div class="head">
+            <h2>Build Your Top 5</h2>
+            <span class="muted">Drag with arrows or remove</span>
+          </div>
+          <div class="content">
+            <div class="builder-input" style="margin-bottom:10px">
+              <input id="customPlayer" type="text" placeholder="Add any player (name only)" />
+              <button id="addCustom" class="btn" type="button">Add</button>
+            </div>
+            <ol id="top5List" class="rank" aria-label="Your Top 5"></ol>
+            <div class="labels" style="margin-top:10px"><span class="lab-left">Tip</span><span class="lab-right">Max 5 players</span></div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:14px">
+          <div class="head">
+            <h2>Player Pool</h2>
+            <span class="muted">Top 10 (21st Century)</span>
+          </div>
+          <div class="content">
+            <div id="poolList" class="pool-list" aria-label="Player Pool"></div>
+          </div>
+        </section>
+      </aside>
     </div>
 
     <footer>
@@ -440,8 +485,100 @@
         panel.querySelectorAll('.badge.trophy').forEach(x=> x.style.boxShadow='none');
       });
     });
+    // === GOATBoard Builder ===
+    (function(){
+      const defaultPool = [
+        "Lionel Messi","Cristiano Ronaldo","Zinedine Zidane","Andrés Iniesta","Luka Modrić",
+        "Ronaldinho","Xavi Hernández","Neymar Jr.","Robert Lewandowski","Thierry Henry"
+      ];
+      const LS_KEY = 'goat_top5_v1';
+      const LS_POOL_KEY = 'goat_pool_custom_v1';
+
+      const top5El = document.getElementById('top5List');
+      const poolEl = document.getElementById('poolList');
+      const customInput = document.getElementById('customPlayer');
+      const addCustomBtn = document.getElementById('addCustom');
+
+      const stored = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+      const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_KEY) || '[]');
+
+      let top5 = Array.isArray(stored) ? stored : [];
+      let pool = [...defaultPool, ...storedCustom];
+
+      function save(){ localStorage.setItem(LS_KEY, JSON.stringify(top5)); }
+      function saveCustom(){ localStorage.setItem(LS_POOL_KEY, JSON.stringify(pool.filter(p=>!defaultPool.includes(p)))); }
+
+      function renderTop5(){
+        top5El.innerHTML = '';
+        for(let i=0;i<5;i++){
+          const li = document.createElement('li');
+          const name = top5[i] || '';
+          li.className = 'slot';
+          li.innerHTML = `
+            <span class="index">${i+1}</span>
+            <span class="who">${name || '<span class=\'muted\'>Empty slot</span>'}</span>
+            <span class="actions">
+              <button class="pill-btn" data-act="up" data-idx="${i}">▲</button>
+              <button class="pill-btn" data-act="down" data-idx="${i}">▼</button>
+              <button class="pill-btn" data-act="remove" data-idx="${i}">✕</button>
+            </span>`;
+          top5El.appendChild(li);
+        }
+      }
+
+      function renderPool(){
+        poolEl.innerHTML = '';
+        pool.forEach(name => {
+          const row = document.createElement('div');
+          row.className = 'pool-item';
+          row.innerHTML = `<span class="name">${name}</span>
+                           <button class="pill-btn add" data-name="${name}">＋ Add</button>`;
+          poolEl.appendChild(row);
+        });
+      }
+
+      function addToTop5(name){
+        if(!name) return;
+        if(top5.includes(name)) return;
+        const emptyIdx = top5.findIndex(x=>!x);
+        if(emptyIdx !== -1){ top5[emptyIdx] = name; }
+        else if(top5.length < 5){ top5.push(name); }
+        else { alert('Top 5 is full. Remove a slot or move items to add new ones.'); return; }
+        save(); renderTop5();
+      }
+
+      poolEl.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.add');
+        if(!btn) return;
+        addToTop5(btn.getAttribute('data-name'));
+      });
+
+      top5El.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.pill-btn');
+        if(!btn) return;
+        const idx = parseInt(btn.getAttribute('data-idx'),10);
+        const act = btn.getAttribute('data-act');
+        if(act==='remove'){ top5[idx] = ''; save(); renderTop5(); return; }
+        if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; save(); renderTop5(); return; }
+        if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; save(); renderTop5(); return; }
+      });
+
+      addCustomBtn.addEventListener('click', ()=>{
+        const val = (customInput.value || '').trim();
+        if(!val) return;
+        if(pool.includes(val)) { addToTop5(val); customInput.value=''; return; }
+        pool.push(val); saveCustom(); renderPool(); addToTop5(val); customInput.value='';
+      });
+
+      customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
+
+      // initial render
+      renderTop5();
+      renderPool();
+    })();
   </script>
 </body>
 </html>
+
 
 
