@@ -20,9 +20,6 @@
   <meta http-equiv="Referrer-Policy" content="no-referrer-when-downgrade">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-  <!-- Local fonts are ideal for strict CSP; keeping Google Fonts out.
-       If you want Inter, you can self-host it later. -->
-
   <style>
     :root{
       --bg:#0b0d12; --bg-elev:#121520; --bg-hover:#1a1f2d; --tx:#e9edf7; --tx-dim:#a7b0c3;
@@ -41,7 +38,6 @@
     a{color:inherit}
     .shell{max-width:var(--maxw); margin-inline:auto; padding:24px;}
 
-    /* HEADER */
     header{
       position:sticky; top:0; z-index:10; backdrop-filter: blur(10px);
       background: linear-gradient(180deg, rgba(11,13,18,.85), rgba(11,13,18,.55) 70%, transparent);
@@ -72,12 +68,10 @@
     .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
     .chip{ background:var(--chip); border:1px solid var(--divider); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--tx-dim); }
 
-    /* LAYOUT */
     .grid{ display:grid; gap:22px; grid-template-columns: 1fr; }
     @media (min-width: 880px){ .grid{ grid-template-columns: 1.2fr .8fr; } }
     @media (min-width: 1200px){ .grid{ grid-template-columns: 1.1fr .9fr .8fr; } }
 
-    /* BUILDER */
     .stack{ display:grid; gap:14px; }
     .slot{ display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px dashed var(--divider); border-radius: var(--radius-lg); background:#0f1420; color:var(--tx-dim); }
     .slot .index{ width:22px; text-align:center; font-weight:800; opacity:.75 }
@@ -90,7 +84,6 @@
     select.select{ flex:1; min-width:220px; background:#0f1420; color:var(--tx); border:1px solid var(--divider); border-radius:12px; padding:10px 12px; }
     input.input{ flex:1; min-width:220px; background:#0f1420; color:var(--tx); border:1px solid var(--divider); border-radius:12px; padding:10px 12px; }
 
-    /* CARD */
     .card{
       background: linear-gradient(180deg, #121522, #0f1320); border:1px solid var(--divider); border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
@@ -101,7 +94,6 @@
     .card h2{ font-size: clamp(18px, 2.2vw, 22px); margin:0; }
     .card .content{ padding:16px 18px 20px; }
 
-    /* LISTS */
     .rank{ counter-reset: item; display:grid; gap:8px; margin:0; padding:0; list-style:none; }
     .rank li{ counter-increment: item; background: linear-gradient(180deg, #151a2a, #111625);
       border:1px solid var(--divider); border-radius: var(--radius-lg); padding:12px 14px; display:flex; align-items:center; gap:12px; }
@@ -112,17 +104,14 @@
     .badge.trophy{ color:#ffd76a; background:#1f1a08; border-color:#3a2f10; }
     .badge.goal{ color:#7dd3fc; } .badge.ast{ color:#a7f3d0; }
 
-    /* COLUMN LABELS */
     .labels{display:flex; align-items:center; gap:12px; margin:2px 2px 10px; padding:6px 10px; font-size:12px; color:var(--tx-dim);
       border:1px dashed var(--divider); border-radius:12px; background:rgba(21,26,42,.35)}
     .labels .lab-left{font-weight:700; letter-spacing:.3px}
     .labels .lab-right{margin-left:auto; font-weight:800; letter-spacing:.4px}
 
-    /* SECTION GROUPS */
     .section{ margin-top:22px; }
     .section h3{ display:flex; align-items:center; gap:10px; color:var(--brand); font-size:16px; letter-spacing:.3px; margin:10px 0 10px; }
 
-    /* ACCORDION for Positions */
     details{ border:1px solid var(--divider); border-radius: var(--radius-xl); overflow:hidden; background: linear-gradient(180deg, #121522, #0f1320); box-shadow: var(--shadow); }
     details + details{ margin-top:14px; }
     summary{ cursor:pointer; list-style:none; padding:16px 18px; user-select:none; display:flex; align-items:center; justify-content:space-between; }
@@ -131,7 +120,6 @@
     .sum-meta{ color:var(--tx-dim); font-size:12px; }
     .panel{ padding:10px 16px 16px; border-top:1px solid var(--divider); }
 
-    /* POLL */
     .poll{ margin-top:16px; border:1px solid var(--divider); border-radius:14px; padding:14px; background:linear-gradient(180deg,#13172a,#0f1322); }
     .poll h3{ margin:0 0 12px; font-size:16px; color:var(--brand); letter-spacing:.3px; }
     .poll .meta{ font-size:12px; color:var(--tx-dim); margin-bottom:10px; }
@@ -141,10 +129,9 @@
     .poll-name{ font-weight:700; }
     .poll-pct{ font-weight:800; color:var(--tx-dim); min-width:48px; text-align:right; }
 
-    /* SHARE: image poster template (hidden) */
     .sharecard-wrap{ position:fixed; left:-99999px; top:-99999px; }
     .sharecard{
-      width:1080px; height:1350px; /* IG portrait */
+      width:1080px; height:1350px;
       background: radial-gradient(140% 90% at 10% 0%, #0e152a 0%, #0b0d12 35%, #07090f 100%);
       color:#f5f7ff; padding:48px; display:flex; flex-direction:column; gap:24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
@@ -164,7 +151,6 @@
     .sharecard .footer{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; color:#a7b0c3; font-weight:700; }
     .sharecard .badge{ font-weight:900; color:#ffd76a; }
 
-    /* FOOTER */
     footer{ border-top:1px solid var(--divider); color:var(--tx-dim); text-align:center; padding:26px; margin-top:28px; }
     .muted{ color:var(--tx-dim); }
   </style>
@@ -230,7 +216,6 @@
             </li>
           </ol>
 
-          <!-- POLL RESULTS -->
           <div id="poll" class="poll" aria-live="polite" aria-atomic="true">
             <h3>Community Lock-ins</h3>
             <div class="meta"><span id="pollTotal">0</span> total submissions on this device</div>
@@ -239,7 +224,7 @@
         </div>
       </section>
 
-      <!-- RIGHT COLUMN: POSITIONS -->
+      <!-- RIGHT COLUMN: POSITIONS (unchanged lists) -->
       <section>
         <div class="section" aria-label="Top 5 by Soccer Position">
           <details open>
@@ -435,7 +420,18 @@
           </div>
           <div class="content">
             <div class="builder-controls" style="margin-bottom:10px">
-              <select id="playerSelect" class="select" aria-label="Choose a player to add"></select>
+              <select id="playerSelect" class="select" aria-label="Choose a player to add">
+                <option value="Lionel Messi">Lionel Messi</option>
+                <option value="Cristiano Ronaldo">Cristiano Ronaldo</option>
+                <option value="Zinedine Zidane">Zinedine Zidane</option>
+                <option value="Andrés Iniesta">Andrés Iniesta</option>
+                <option value="Luka Modrić">Luka Modrić</option>
+                <option value="Ronaldinho">Ronaldinho</option>
+                <option value="Xavi Hernández">Xavi Hernández</option>
+                <option value="Neymar Jr.">Neymar Jr.</option>
+                <option value="Robert Lewandowski">Robert Lewandowski</option>
+                <option value="Thierry Henry">Thierry Henry</option>
+              </select>
               <button id="addFromSelect" class="btn" type="button">＋ Add</button>
             </div>
 
@@ -480,7 +476,7 @@
         </div>
         <div class="date" id="shareDate"></div>
       </div>
-      <div class="list" id="shareList"><!-- rows injected --></div>
+      <div class="list" id="shareList"></div>
       <div class="footer">
         <div>goatboard • community picks</div>
         <div><span class="badge">#GOAT</span></div>
@@ -488,241 +484,244 @@
     </div>
   </div>
 
-  <!-- Load html2canvas locally (CSP: script-src 'self') -->
+  <!-- Scripts (CSP-safe) -->
   <script src="html2canvas.min.js" defer></script>
-
-  <script>
-    // Expand / Collapse helpers
-    const expandAll = document.getElementById('expandAll');
-    const collapseAll = document.getElementById('collapseAll');
-    function allDetails(){ return Array.from(document.querySelectorAll('details')); }
-    expandAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = true));
-    collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = false));
-
-    // === GOATBoard Builder + Poll + JPEG Share ===
-    (function(){
-      const defaultPool = [
-        "Lionel Messi","Cristiano Ronaldo","Zinedine Zidane","Andrés Iniesta","Luka Modrić",
-        "Ronaldinho","Xavi Hernández","Neymar Jr.","Robert Lewandowski","Thierry Henry"
-      ];
-      const LS_TOP5 = 'goat_top5_v1';
-      const LS_POOL_CUSTOM = 'goat_pool_custom_v1';
-      const LS_POLL_COUNTS = 'goat_poll_counts_v1';
-      const LS_POLL_TOTAL = 'goat_poll_total_v1';
-      const LS_POLL_LOCKED = 'goat_poll_locked_v1';
-
-      const top5El = document.getElementById('top5List');
-
-      const playerSelect = document.getElementById('playerSelect');
-      const addFromSelectBtn = document.getElementById('addFromSelect');
-
-      const customInput = document.getElementById('customPlayer');
-      const addCustomBtn = document.getElementById('addCustom');
-
-      const lockBtn = document.getElementById('lockIn');
-      const clearBtn = document.getElementById('clearVote');
-      const shareBtn = document.getElementById('shareImage');
-
-      const pollRows = document.getElementById('pollRows');
-      const pollTotal = document.getElementById('pollTotal');
-
-      // Poster elements
-      const shareCard = document.getElementById('shareCard');
-      const shareList = document.getElementById('shareList');
-      const shareDate = document.getElementById('shareDate');
-
-      const storedTop = JSON.parse(localStorage.getItem(LS_TOP5) || '[]');
-      const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_CUSTOM) || '[]');
-
-      let top5 = Array.isArray(storedTop) ? storedTop : [];
-      let pool = [...defaultPool, ...storedCustom];
-
-      function saveTop(){ localStorage.setItem(LS_TOP5, JSON.stringify(top5)); }
-      function saveCustomPool(){ localStorage.setItem(LS_POOL_CUSTOM, JSON.stringify(pool.filter(p => !defaultPool.includes(p)))); }
-
-      function hydrateSelect(){
-        // keep unique, sorted with defaults first
-        const seen = new Set();
-        const ordered = [...defaultPool, ...pool.filter(p => !defaultPool.includes(p))];
-        playerSelect.innerHTML = '';
-        ordered.forEach(name=>{
-          if(seen.has(name)) return; seen.add(name);
-          const opt = document.createElement('option');
-          opt.value = name; opt.textContent = name;
-          playerSelect.appendChild(opt);
-        });
-      }
-
-      function renderTop5(){
-        top5El.innerHTML = '';
-        for(let i=0;i<5;i++){
-          const li = document.createElement('li');
-          const name = top5[i] || '';
-          li.className = 'slot';
-          li.innerHTML = `
-            <span class="index">${i+1}</span>
-            <span class="who">${name || '<span class="muted">Empty slot</span>'}</span>
-            <span class="actions">
-              <button class="pill-btn" data-act="up" data-idx="${i}" aria-label="Move up">▲</button>
-              <button class="pill-btn" data-act="down" data-idx="${i}" aria-label="Move down">▼</button>
-              <button class="pill-btn" data-act="remove" data-idx="${i}" aria-label="Remove">✕</button>
-            </span>`;
-          top5El.appendChild(li);
-        }
-      }
-
-      function addToTop5(name){
-        if(!name) return;
-        if(top5.includes(name)) return;
-        const emptyIdx = top5.findIndex(x=>!x);
-        if(emptyIdx !== -1){ top5[emptyIdx] = name; }
-        else if(top5.length < 5){ top5.push(name); }
-        else { alert('Top 5 is full. Remove a slot or move items to add new ones.'); return; }
-        saveTop(); renderTop5();
-      }
-
-      addFromSelectBtn.addEventListener('click', ()=>{
-        const val = playerSelect.value;
-        addToTop5(val);
-      });
-
-      addCustomBtn.addEventListener('click', ()=>{
-        const val = (customInput.value || '').trim();
-        if(!val) return;
-        if(!pool.includes(val)){ pool.push(val); saveCustomPool(); hydrateSelect(); }
-        addToTop5(val);
-        customInput.value='';
-      });
-      customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
-
-      top5El.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.pill-btn'); if(!btn) return;
-        const idx = parseInt(btn.getAttribute('data-idx'),10);
-        const act = btn.getAttribute('data-act');
-        if(act==='remove'){ top5[idx] = ''; saveTop(); renderTop5(); return; }
-        if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; saveTop(); renderTop5(); return; }
-        if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; saveTop(); renderTop5(); return; }
-      });
-
-      // ---- Poll logic (device-only) ----
-      function getCounts(){ return JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}'); }
-      function setCounts(obj){ localStorage.setItem(LS_POLL_COUNTS, JSON.stringify(obj)); }
-      function getTotal(){ return parseInt(localStorage.getItem(LS_POLL_TOTAL) || '0',10); }
-      function setTotal(n){ localStorage.setItem(LS_POLL_TOTAL, String(n)); }
-
-      function renderPoll(){
-        const counts = getCounts();
-        const total = getTotal();
-        pollTotal.textContent = total;
-        pollRows.innerHTML = '';
-
-        const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,15);
-        if(entries.length === 0){
-          const hint = document.createElement('div');
-          hint.className = 'meta';
-          hint.textContent = 'No submissions yet. Build your Top 5 on the right and lock it in!';
-          pollRows.appendChild(hint);
-          return;
-        }
-
-        entries.forEach(([name, cnt])=>{
-          const pct = total > 0 ? Math.round((cnt/total)*100) : 0;
-          const row = document.createElement('div'); row.className = 'poll-row';
-          const left = document.createElement('div');
-          left.innerHTML = `<div class="poll-name">${name}</div><div class="poll-bar"><div style="width:${pct}%"></div></div>`;
-          const right = document.createElement('div'); right.className = 'poll-pct'; right.textContent = pct + '%';
-          row.appendChild(left); row.appendChild(right);
-          pollRows.appendChild(row);
-        });
-      }
-
-      function lockInVote(){
-        const already = localStorage.getItem(LS_POLL_LOCKED) === '1';
-        if(already){
-          alert('You already locked in your Top 5 on this device.');
-          return;
-        }
-        const picks = top5.filter(Boolean);
-        if(picks.length < 5){
-          if(!confirm('You have fewer than 5 players. Lock in anyway?')) return;
-        }
-        const counts = getCounts();
-        picks.forEach(name => { counts[name] = (counts[name]||0) + 1; });
-        setCounts(counts);
-        setTotal(getTotal()+1);
-        localStorage.setItem(LS_POLL_LOCKED,'1');
-        renderPoll();
-        alert('Locked! Your Top 5 was counted on this device.');
-      }
-
-      function clearVote(){
-        if(confirm('Reset your local poll submission and counts on this device?')){
-          localStorage.removeItem(LS_POLL_LOCKED);
-          localStorage.removeItem(LS_POLL_COUNTS);
-          localStorage.removeItem(LS_POLL_TOTAL);
-          renderPoll();
-          alert('Local poll data cleared.');
-        }
-      }
-      lockBtn.addEventListener('click', lockInVote);
-      clearBtn.addEventListener('click', clearVote);
-
-      // ---- JPEG poster rendering & sharing ----
-      function populateShareCard(){
-        const d = new Date();
-        shareDate.textContent = d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
-        shareList.innerHTML = '';
-        const picks = top5.filter(Boolean);
-        for(let i = 0; i < 5; i++){
-          const nm = picks[i] || '—';
-          const row = document.createElement('div');
-          row.className = 'row';
-          row.innerHTML = `<div class="idx">${i+1}</div>
-                           <div class="nm">${nm}</div>
-                           <div class="tag">GOATBoard</div>`;
-          shareList.appendChild(row);
-        }
-      }
-
-      async function generateJPEGBlob(){
-        populateShareCard();
-        if (!window.html2canvas) {
-          alert('Image renderer not found. Place html2canvas.min.js next to index.html.');
-          return null;
-        }
-        const canvas = await html2canvas(shareCard, { backgroundColor: null, scale: 2, useCORS: true });
-        return new Promise(resolve => canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.92));
-      }
-
-      async function shareOrDownloadJPEG(){
-        const blob = await generateJPEGBlob();
-        if(!blob) return;
-        const file = new File([blob], 'goatboard-top5.jpg', { type: 'image/jpeg' });
-
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({ files: [file], title: 'GOATBoard — My Top 5', text: 'My GOATBoard Top 5 (21st Century)' });
-            return;
-          } catch(e) { /* user cancelled */ }
-        }
-        // Fallback: download
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = 'goatboard-top5.jpg';
-        document.body.appendChild(a); a.click(); a.remove();
-        URL.revokeObjectURL(url);
-      }
-
-      shareBtn.addEventListener('click', shareOrDownloadJPEG);
-
-      // Init
-      hydrateSelect();
-      renderTop5();
-      renderPoll();
-    })();
-  </script>
+  <script src="app.js" defer></script>
 </body>
 </html>
+
+// Expand / Collapse helpers
+const expandAll = document.getElementById('expandAll');
+const collapseAll = document.getElementById('collapseAll');
+function allDetails(){ return Array.from(document.querySelectorAll('details')); }
+expandAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = true));
+collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = false));
+
+// === GOATBoard Builder + Poll + JPEG Share ===
+(function(){
+  const defaultPool = [
+    "Lionel Messi","Cristiano Ronaldo","Zinedine Zidane","Andrés Iniesta","Luka Modrić",
+    "Ronaldinho","Xavi Hernández","Neymar Jr.","Robert Lewandowski","Thierry Henry"
+  ];
+  const LS_TOP5 = 'goat_top5_v1';
+  const LS_POOL_CUSTOM = 'goat_pool_custom_v1';
+  const LS_POLL_COUNTS = 'goat_poll_counts_v1';
+  const LS_POLL_TOTAL = 'goat_poll_total_v1';
+  const LS_POLL_LOCKED = 'goat_poll_locked_v1';
+
+  const top5El = document.getElementById('top5List');
+
+  const playerSelect = document.getElementById('playerSelect');
+  const addFromSelectBtn = document.getElementById('addFromSelect');
+
+  const customInput = document.getElementById('customPlayer');
+  const addCustomBtn = document.getElementById('addCustom');
+
+  const lockBtn = document.getElementById('lockIn');
+  const clearBtn = document.getElementById('clearVote');
+  const shareBtn = document.getElementById('shareImage');
+
+  const pollRows = document.getElementById('pollRows');
+  const pollTotal = document.getElementById('pollTotal');
+
+  // Poster elements
+  const shareCard = document.getElementById('shareCard');
+  const shareList = document.getElementById('shareList');
+  const shareDate = document.getElementById('shareDate');
+
+  const storedTop = JSON.parse(localStorage.getItem(LS_TOP5) || '[]');
+  const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_CUSTOM) || '[]');
+
+  let top5 = Array.isArray(storedTop) ? storedTop : [];
+
+  // Ensure dropdown also has any previously saved custom players
+  function addOptionIfMissing(name){
+    if (!name) return;
+    const exists = Array.from(playerSelect.options).some(o => o.value === name);
+    if (!exists){
+      const opt = document.createElement('option');
+      opt.value = name; opt.textContent = name;
+      playerSelect.appendChild(opt);
+    }
+  }
+  storedCustom.forEach(addOptionIfMissing);
+
+  function saveTop(){ localStorage.setItem(LS_TOP5, JSON.stringify(top5)); }
+  function saveCustomPool(names){
+    localStorage.setItem(LS_POOL_CUSTOM, JSON.stringify(names));
+  }
+
+  function renderTop5(){
+    top5El.innerHTML = '';
+    for(let i=0;i<5;i++){
+      const li = document.createElement('li');
+      const name = top5[i] || '';
+      li.className = 'slot';
+      li.innerHTML = `
+        <span class="index">${i+1}</span>
+        <span class="who">${name || '<span class="muted">Empty slot</span>'}</span>
+        <span class="actions">
+          <button class="pill-btn" data-act="up" data-idx="${i}" aria-label="Move up">▲</button>
+          <button class="pill-btn" data-act="down" data-idx="${i}" aria-label="Move down">▼</button>
+          <button class="pill-btn" data-act="remove" data-idx="${i}" aria-label="Remove">✕</button>
+        </span>`;
+      top5El.appendChild(li);
+    }
+  }
+
+  function addToTop5(name){
+    if(!name) return;
+    if(top5.includes(name)) return;
+    const emptyIdx = top5.findIndex(x=>!x);
+    if(emptyIdx !== -1){ top5[emptyIdx] = name; }
+    else if(top5.length < 5){ top5.push(name); }
+    else { alert('Top 5 is full. Remove a slot or move items to add new ones.'); return; }
+    saveTop(); renderTop5();
+  }
+
+  addFromSelectBtn.addEventListener('click', ()=>{
+    const val = playerSelect.value;
+    addToTop5(val);
+  });
+
+  addCustomBtn.addEventListener('click', ()=>{
+    const val = (customInput.value || '').trim();
+    if(!val) return;
+    addOptionIfMissing(val);
+    // persist custom list
+    const customs = Array.from(playerSelect.options)
+      .map(o=>o.value)
+      .filter(n => !defaultPool.includes(n));
+    saveCustomPool(customs);
+    addToTop5(val);
+    customInput.value='';
+  });
+
+  customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
+
+  top5El.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.pill-btn'); if(!btn) return;
+    const idx = parseInt(btn.getAttribute('data-idx'),10);
+    const act = btn.getAttribute('data-act');
+    if(act==='remove'){ top5[idx] = ''; saveTop(); renderTop5(); return; }
+    if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; saveTop(); renderTop5(); return; }
+    if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; saveTop(); renderTop5(); return; }
+  });
+
+  // ---- Poll logic (device-only) ----
+  function getCounts(){ return JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}'); }
+  function setCounts(obj){ localStorage.setItem(LS_POLL_COUNTS, JSON.stringify(obj)); }
+  function getTotal(){ return parseInt(localStorage.getItem(LS_POLL_TOTAL) || '0',10); }
+  function setTotal(n){ localStorage.setItem(LS_POLL_TOTAL, String(n)); }
+
+  function renderPoll(){
+    const counts = getCounts();
+    const total = getTotal();
+    pollTotal.textContent = total;
+    pollRows.innerHTML = '';
+
+    const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,15);
+    if(entries.length === 0){
+      const hint = document.createElement('div');
+      hint.className = 'meta';
+      hint.textContent = 'No submissions yet. Build your Top 5 on the right and lock it in!';
+      pollRows.appendChild(hint);
+      return;
+    }
+
+    entries.forEach(([name, cnt])=>{
+      const pct = total > 0 ? Math.round((cnt/total)*100) : 0;
+      const row = document.createElement('div'); row.className = 'poll-row';
+      const left = document.createElement('div');
+      left.innerHTML = `<div class="poll-name">${name}</div><div class="poll-bar"><div style="width:${pct}%"></div></div>`;
+      const right = document.createElement('div'); right.className = 'poll-pct'; right.textContent = pct + '%';
+      row.appendChild(left); row.appendChild(right);
+      pollRows.appendChild(row);
+    });
+  }
+
+  function lockInVote(){
+    const already = localStorage.getItem(LS_POLL_LOCKED) === '1';
+    if(already){
+      alert('You already locked in your Top 5 on this device.');
+      return;
+    }
+    const picks = top5.filter(Boolean);
+    if(picks.length < 5){
+      if(!confirm('You have fewer than 5 players. Lock in anyway?')) return;
+    }
+    const counts = getCounts();
+    picks.forEach(name => { counts[name] = (counts[name]||0) + 1; });
+    setCounts(counts);
+    setTotal(getTotal()+1);
+    localStorage.setItem(LS_POLL_LOCKED,'1');
+    renderPoll();
+    alert('Locked! Your Top 5 was counted on this device.');
+  }
+
+  function clearVote(){
+    if(confirm('Reset your local poll submission and counts on this device?')){
+      localStorage.removeItem(LS_POLL_LOCKED);
+      localStorage.removeItem(LS_POLL_COUNTS);
+      localStorage.removeItem(LS_POLL_TOTAL);
+      renderPoll();
+      alert('Local poll data cleared.');
+    }
+  }
+  lockBtn.addEventListener('click', lockInVote);
+  clearBtn.addEventListener('click', clearVote);
+
+  // ---- JPEG poster rendering & sharing ----
+  function populateShareCard(){
+    const d = new Date();
+    shareDate.textContent = d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
+    shareList.innerHTML = '';
+    const picks = top5.filter(Boolean);
+    for(let i = 0; i < 5; i++){
+      const nm = picks[i] || '—';
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<div class="idx">${i+1}</div>
+                       <div class="nm">${nm}</div>
+                       <div class="tag">GOATBoard</div>`;
+      shareList.appendChild(row);
+    }
+  }
+
+  async function generateJPEGBlob(){
+    populateShareCard();
+    if (!window.html2canvas) {
+      alert('Image renderer not found. Place html2canvas.min.js next to index.html.');
+      return null;
+    }
+    const canvas = await html2canvas(shareCard, { backgroundColor: null, scale: 2, useCORS: true });
+    return new Promise(resolve => canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.92));
+  }
+
+  async function shareOrDownloadJPEG(){
+    const blob = await generateJPEGBlob();
+    if(!blob) return;
+    const file = new File([blob], 'goatboard-top5.jpg', { type: 'image/jpeg' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'GOATBoard — My Top 5', text: 'My GOATBoard Top 5 (21st Century)' });
+        return;
+      } catch(e) { /* user cancelled */ }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'goatboard-top5.jpg';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  shareBtn.addEventListener('click', shareOrDownloadJPEG);
+
+  // Init
+  renderTop5();
+  renderPoll();
+})();
+
 
 
 
