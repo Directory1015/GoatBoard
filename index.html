@@ -83,24 +83,6 @@
     .nm{ font-weight:800 }
     .val{ margin-left:auto; font-weight:800; color:#cfe2ff }
 
-    /* Edit panel */
-    .controls{
-      max-width:var(--maxw); margin:0 auto 12px; padding:0 16px;
-      display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:center;
-    }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px; font-weight:700; cursor:pointer;
-      background:linear-gradient(180deg,#151a29,#101423); color:var(--tx);
-      border:1px solid var(--divider); border-radius:12px; padding:9px 12px;
-      transition:transform .06s,background .2s,border-color .2s;
-    }
-    .btn:hover{ transform:translateY(-1px); border-color:#3a4766; background:#151c2e }
-    .hint{ color:var(--tx-dim); font-size:12px; }
-
-    /* Editable fields */
-    [contenteditable="true"]{
-      outline:2px dashed rgba(90,162,255,.35); border-radius:8px; padding:2px 4px;
-    }
     .muted{ color:var(--tx-dim) }
     footer{ text-align:center; color:var(--tx-dim); padding:26px }
   </style>
@@ -123,14 +105,6 @@
     <p class="tag">Soccer-first. Quick links to other sports.</p>
   </header>
 
-  <!-- Edit / Save bar -->
-  <div class="controls">
-    <button id="editBtn" class="btn" type="button">✏️ Edit</button>
-    <button id="saveBtn" class="btn" type="button">💾 Save</button>
-    <button id="resetBtn" class="btn" type="button">♻️ Reset</button>
-    <span class="hint">Tip: Click Edit → update any name/number → Save (stored locally).</span>
-  </div>
-
   <main class="shell">
     <div id="cards" class="grid" aria-live="polite"></div>
   </main>
@@ -138,65 +112,113 @@
   <footer>© 2025 GOATBoard</footer>
 
   <script>
-    // ----- Data model (feel free to tweak the seed values) -----
-    const SEED = {
-      updated: new Date().toISOString(),
-      // Top 5 European leagues + Champions League
+    // Static data — update these numbers weekly by editing the arrays below.
+    const DATA = {
+      updated: '2025-09-28',
       competitions: [
-        { key:'epl', name:'Premier League' },
-        { key:'laliga', name:'La Liga' },
-        { key:'seriea', name:'Serie A' },
-        { key:'bundesliga', name:'Bundesliga' },
-        { key:'ligue1', name:'Ligue 1' },
-        { key:'ucl', name:'UEFA Champions League' },
-      ].map(c => ({
-        ...c,
-        record: { // All-time single-season record (editable)
-          holder: '—', goals: '—', season: '—' // e.g., "Erling Haaland", "36", "2022–23"
+        {
+          key:'epl',
+          name:'Premier League',
+          record: { holder: 'Erling Haaland', goals: '36', season: '2022/23' },
+          scorers: [
+            { name:'Erling Haaland (Man City)', value:'4' },
+            { name:'Antoine Semenyo (Bournemouth)', value:'3' },
+            { name:'Jaidon Anthony (Burnley)', value:'3' }, // tied 3rd with Igor Thiago (Brentford) at 3
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
         },
-        scorers: [ // Current Top 3 scorers (editable)
-          { name:'—', value:'—' },
-          { name:'—', value:'—' },
-          { name:'—', value:'—' },
-        ],
-        assisters: [ // Current Top 3 assisters (editable)
-          { name:'—', value:'—' },
-          { name:'—', value:'—' },
-          { name:'—', value:'—' },
-        ]
-      }))
+        {
+          key:'laliga',
+          name:'La Liga',
+          record: { holder: 'Lionel Messi', goals: '50', season: '2011/12' },
+          scorers: [
+            { name:'Kylian Mbappé (Real Madrid)', value:'4' },
+            { name:'Julián Álvarez (Atlético)', value:'3' },
+            { name:'Etta Eyong (Levante)', value:'3' }, // tied 3rd with Ferran Torres, Iván Romero at 3
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
+        },
+        {
+          key:'seriea',
+          name:'Serie A',
+          record: { holder: 'Ciro Immobile', goals: '36', season: '2019/20' },
+          scorers: [
+            { name:'Marcus Thuram (Inter)', value:'3' },
+            { name:'Christian Pulisic (AC Milan)', value:'3' },
+            { name:'Nico Paz (Como)', value:'3' },
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
+        },
+        {
+          key:'bundesliga',
+          name:'Bundesliga',
+          record: { holder: 'Robert Lewandowski', goals: '41', season: '2020/21' },
+          scorers: [
+            { name:'Harry Kane (Bayern Munich)', value:'5' },
+            { name:'Can Uzun (Eintracht Frankfurt)', value:'3' },
+            { name:'Serhou Guirassy (Dortmund)', value:'3' },
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
+        },
+        {
+          key:'ligue1',
+          name:'Ligue 1',
+          // Note: Absolute record is Josip Skoblar 44 (1970/71); using modern-era benchmark per your note.
+          record: { holder: 'Kylian Mbappé', goals: '27', season: '2018/19' },
+          scorers: [
+            { name:'Ansu Fati (Monaco)', value:'3' },
+            { name:'Pierre-Emerick Aubameyang (Marseille)', value:'3' },
+            { name:'Bradley Barcola (PSG)', value:'3' },
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
+        },
+        {
+          key:'ucl',
+          name:'UEFA Champions League',
+          record: { holder: '—', goals: '—', season: '—' },
+          scorers: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ],
+          assisters: [
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+            { name:'—', value:'—' },
+          ]
+        }
+      ]
     };
 
-    const LS_KEY = 'goat_home_leaders_v1';
-
-    function loadData(){
-      try{
-        const raw = localStorage.getItem(LS_KEY);
-        if(!raw) return JSON.parse(JSON.stringify(SEED));
-        const data = JSON.parse(raw);
-        // If we ever add new competitions, merge them
-        const have = new Set(data.competitions.map(c => c.key));
-        SEED.competitions.forEach(c => { if(!have.has(c.key)) data.competitions.push(c); });
-        return data;
-      }catch(e){ return JSON.parse(JSON.stringify(SEED)); }
-    }
-    function saveData(data){ localStorage.setItem(LS_KEY, JSON.stringify(data)); }
-
-    let DATA = loadData();
-    let EDIT = false;
-
     const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
     function row(label, obj, idx, field){
-      // label for ARIA, obj is mutable reference in DATA
-      const id = `${label}-${idx}-${field}`;
       const val = field === 'name' ? obj.name : obj.value;
       return `
         <li>
           <span class="idx">${idx+1}.</span>
-          <span class="nm" ${EDIT ? 'contenteditable="true"' : ''} data-bind="${label}.${idx}.${field}" aria-label="${label} ${idx+1} ${field}" id="${id}">${val}</span>
-          ${field==='name' ? `<span class="val" ${EDIT ? 'contenteditable="true"' : ''} data-bind="${label}.${idx}.value">${obj.value}</span>` : ''}
+          <span class="nm">${field === 'name' ? obj.name : ''}</span>
+          ${field==='name' ? `<span class="val">${obj.value}</span>` : ''}
         </li>
       `;
     }
@@ -211,89 +233,51 @@
               <div class="meta">${new Date(DATA.updated).toLocaleDateString()}</div>
             </div>
 
-            <div class="record">
+            <div class="record" title="All-Time Single-Season League Record">
               <span>All-time single-season record:&nbsp;</span>
-              <b class="nm" ${EDIT?'contenteditable="true"':''} data-bind="${c.key}.record.holder">${c.record.holder}</b>
+              <b class="nm">${c.record.holder}</b>
               <span class="muted">•</span>
-              <span ${EDIT?'contenteditable="true"':''} data-bind="${c.key}.record.goals">${c.record.goals}</span>
+              <span>${c.record.goals}</span>
               <span class="muted">goals</span>
               <span class="muted">•</span>
-              <span ${EDIT?'contenteditable="true"':''} data-bind="${c.key}.record.season">${c.record.season}</span>
+              <span>${c.record.season}</span>
             </div>
 
             <div class="cols">
               <div class="col">
                 <h4>Current Top 3 Scorers</h4>
                 <ol class="list">
-                  ${c.scorers.map((p,i)=>row(`${c.key}.scorers`, p, i, 'name')).join('')}
+                  ${c.scorers.map((p,i)=>`
+                    <li>
+                      <span class="idx">${i+1}.</span>
+                      <span class="nm">${p.name}</span>
+                      <span class="val">${p.value}</span>
+                    </li>
+                  `).join('')}
                 </ol>
               </div>
               <div class="col">
                 <h4>Current Top 3 Assisters</h4>
                 <ol class="list">
-                  ${c.assisters.map((p,i)=>row(`${c.key}.assisters`, p, i, 'name')).join('')}
+                  ${c.assisters.map((p,i)=>`
+                    <li>
+                      <span class="idx">${i+1}.</span>
+                      <span class="nm">${p.name}</span>
+                      <span class="val">${p.value}</span>
+                    </li>
+                  `).join('')}
                 </ol>
               </div>
             </div>
           </section>
         `;
       }).join('');
-      bindEditing();
     }
-
-    function bindEditing(){
-      if(!EDIT) return;
-      // Any contenteditable element updates DATA on input
-      $$('.card [contenteditable="true"]').forEach(el=>{
-        el.addEventListener('input', ()=>{
-          const path = el.dataset.bind; // e.g., "epl.record.holder" or "epl.scorers.0.name"
-          setByPath(DATA, path, el.textContent.trim());
-          DATA.updated = new Date().toISOString();
-        });
-      });
-    }
-
-    function setByPath(obj, path, value){
-      const parts = path.split('.');
-      let ref = obj;
-      while(parts.length>1){
-        const k = parts.shift();
-        // if numeric string, turn into number (for arrays)
-        const idx = String(+k) === k ? +k : k;
-        ref = ref[idx];
-      }
-      const last = parts[0];
-      const lastIdx = String(+last) === last ? +last : last;
-      ref[lastIdx] = value;
-    }
-
-    // Buttons
-    $('#editBtn').addEventListener('click', ()=>{
-      EDIT = !EDIT;
-      $('#editBtn').textContent = EDIT ? '🛠️ Editing…' : '✏️ Edit';
-      render();
-    });
-
-    $('#saveBtn').addEventListener('click', ()=>{
-      DATA.updated = new Date().toISOString();
-      saveData(DATA);
-      if(EDIT){ EDIT = false; $('#editBtn').textContent='✏️ Edit'; }
-      render();
-      alert('Saved! (stored in this browser via localStorage)');
-    });
-
-    $('#resetBtn').addEventListener('click', ()=>{
-      if(confirm('Reset all homepage leaders to defaults on this device?')){
-        localStorage.removeItem(LS_KEY);
-        DATA = loadData();
-        EDIT = false; $('#editBtn').textContent='✏️ Edit';
-        render();
-      }
-    });
 
     // First render
     render();
   </script>
 </body>
 </html>
+
 
