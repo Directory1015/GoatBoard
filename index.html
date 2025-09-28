@@ -104,7 +104,6 @@
       border:1px dashed var(--divider); border-radius:12px; background:rgba(21,26,42,.35)}
     .labels .lab-left{font-weight:700; letter-spacing:.3px}
     .labels .lab-right{margin-left:auto; font-weight:800; letter-spacing:.4px}
-    .labels.trophies .lab-right::before{content:""}
 
     /* SECTION GROUPS */
     .section{ margin-top:22px; }
@@ -129,13 +128,28 @@
     .poll-name{ font-weight:700; }
     .poll-pct{ font-weight:800; color:var(--tx-dim); min-width:48px; text-align:right; }
 
-    /* SHARE */
-    .share{ margin-top:14px; border-top:1px dashed var(--divider); padding-top:12px; }
-    .share .row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-    .share .mini{ font-size:12px; color:var(--tx-dim); margin-bottom:8px; }
-    .share .sbtn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid var(--divider); background:#151a27; cursor:pointer; font-weight:700; }
-    .share .sbtn:hover{ background:#1b2131; }
-    .share input.link{ flex:1; min-width:220px; background:#0f1420; color:var(--tx); border:1px solid var(--divider); border-radius:10px; padding:8px 10px; }
+    /* SHARE: image poster template (hidden) */
+    .sharecard-wrap{ position:fixed; left:-99999px; top:-99999px; } /* off-screen */
+    .sharecard{
+      width:1080px; height:1350px; /* IG portrait */
+      background: radial-gradient(140% 90% at 10% 0%, #0e152a 0%, #0b0d12 35%, #07090f 100%);
+      color:#f5f7ff; padding:48px; display:flex; flex-direction:column; gap:24px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    .sharecard .hdr{ display:flex; align-items:center; justify-content:space-between; }
+    .sharecard .brand{ display:flex; align-items:center; gap:14px; }
+    .sharecard .logo{ width:60px; height:60px; border-radius:16px; display:grid; place-items:center; background: conic-gradient(from 200deg, #5aa2ff, #00d2ff); box-shadow: inset 0 0 0 2px rgba(255,255,255,.1);}
+    .sharecard h2{ margin:0; font-size:44px; letter-spacing:.4px; }
+    .sharecard .date{ color:#a7b0c3; font-weight:700; }
+    .sharecard .list{ margin-top:6px; display:flex; flex-direction:column; gap:14px; }
+    .sharecard .row{
+      display:flex; gap:16px; align-items:center; background:linear-gradient(180deg, #151a2a, #0f1422);
+      border:1px solid #253055; border-radius:16px; padding:18px 20px; box-shadow: 0 4px 18px rgba(0,0,0,.35);
+    }
+    .sharecard .idx{ font-size:28px; font-weight:900; width:36px; text-align:right; color:#9fb6ff; }
+    .sharecard .nm{ font-size:30px; font-weight:800; flex:1; }
+    .sharecard .tag{ font-size:14px; color:#a7b0c3; }
+    .sharecard .footer{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; color:#a7b0c3; font-weight:700; }
+    .sharecard .badge{ font-weight:900; color:#ffd76a; }
 
     /* FOOTER */
     footer{ border-top:1px solid var(--divider); color:var(--tx-dim); text-align:center; padding:26px; margin-top:28px; }
@@ -209,21 +223,6 @@
             <h3>Community Lock-ins</h3>
             <div class="meta"><span id="pollTotal">0</span> total submissions on this device</div>
             <div id="pollRows"></div>
-          </div>
-
-          <!-- SHARE (appears on mobile/desktop) -->
-          <div class="share">
-            <div class="mini">Share your Top 5:</div>
-            <div class="row">
-              <button id="shareNative" class="sbtn">📤 Share</button>
-              <a id="shareWhatsApp" class="sbtn" target="_blank" rel="noopener">🟢 WhatsApp</a>
-              <a id="shareSMS" class="sbtn">💬 SMS</a>
-              <a id="shareX" class="sbtn" target="_blank" rel="noopener">𝕏 Tweet</a>
-              <a id="shareFB" class="sbtn" target="_blank" rel="noopener">📘 Facebook</a>
-              <a id="shareTG" class="sbtn" target="_blank" rel="noopener">📨 Telegram</a>
-              <input id="shareLink" class="link" readonly />
-              <button id="copyLink" class="sbtn">📋 Copy link</button>
-            </div>
           </div>
         </div>
       </section>
@@ -401,7 +400,7 @@
 
           <details>
             <summary><span class="sum-title">ST — Strikers</span><span class="sum-meta">Top 21st-century</span></summary>
-            <div class="panel">
+            <div class="panel>
               <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Ronaldo Nazário</span><span class="badges"><span class="badge trophy">15</span></span></li>
@@ -420,7 +419,7 @@
         <section class="card">
           <div class="head">
             <h2>Build Your Top 5</h2>
-            <span class="muted">Reorder with arrows, then lock in</span>
+            <span class="muted">Reorder with arrows, then lock/share</span>
           </div>
           <div class="content">
             <div class="builder-input" style="margin-bottom:10px">
@@ -428,8 +427,9 @@
               <button id="addCustom" class="btn" type="button">Add</button>
             </div>
             <ol id="top5List" class="rank" aria-label="Your Top 5"></ol>
-            <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
               <button id="lockIn" class="btn" type="button" title="Submit your Top 5">🔒 Lock In My Top 5</button>
+              <button id="shareImage" class="btn" type="button" title="Share as JPEG">🖼️ Share as Image (JPEG)</button>
               <button id="clearVote" class="btn small" type="button" title="Reset your vote (this device only)">Reset</button>
             </div>
             <div class="labels" style="margin-top:10px"><span class="lab-left">Tip</span><span class="lab-right">Max 5 players</span></div>
@@ -453,6 +453,34 @@
     </footer>
   </main>
 
+  <!-- Hidden poster template for image capture -->
+  <div class="sharecard-wrap">
+    <div id="shareCard" class="sharecard" role="img" aria-label="GOATBoard Top 5 poster">
+      <div class="hdr">
+        <div class="brand">
+          <div class="logo">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2l1.8 3.7 4.1.6-3 3 0.7 4.2L12 11.7 8.4 13.5l.7-4.2-3-3 4.1-.6L12 2z" fill="#fff" opacity=".95"/>
+            </svg>
+          </div>
+          <div>
+            <h2>GOATBoard</h2>
+            <div class="tag">Top 5 — 21st Century (Soccer)</div>
+          </div>
+        </div>
+        <div class="date" id="shareDate"></div>
+      </div>
+      <div class="list" id="shareList"><!-- rows injected --></div>
+      <div class="footer">
+        <div>goatboard • community picks</div>
+        <div><span class="badge">#GOAT</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- html2canvas (client-side DOM → canvas) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+
   <script>
     // Expand / Collapse helpers
     const expandAll = document.getElementById('expandAll');
@@ -461,7 +489,7 @@
     expandAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = true));
     collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = false));
 
-    // === GOATBoard Builder + Poll + Share (local-only) ===
+    // === GOATBoard Builder + Poll + JPEG Share ===
     (function(){
       const defaultPool = [
         "Lionel Messi","Cristiano Ronaldo","Zinedine Zidane","Andrés Iniesta","Luka Modrić",
@@ -479,18 +507,15 @@
       const addCustomBtn = document.getElementById('addCustom');
       const lockBtn = document.getElementById('lockIn');
       const clearBtn = document.getElementById('clearVote');
+      const shareBtn = document.getElementById('shareImage');
 
       const pollRows = document.getElementById('pollRows');
       const pollTotal = document.getElementById('pollTotal');
 
-      const shareNative = document.getElementById('shareNative');
-      const shareLink = document.getElementById('shareLink');
-      const copyLink = document.getElementById('copyLink');
-      const shareX = document.getElementById('shareX');
-      const shareFB = document.getElementById('shareFB');
-      const shareWA = document.getElementById('shareWhatsApp');
-      const shareSMS = document.getElementById('shareSMS');
-      const shareTG = document.getElementById('shareTG');
+      // Poster elements
+      const shareCard = document.getElementById('shareCard');
+      const shareList = document.getElementById('shareList');
+      const shareDate = document.getElementById('shareDate');
 
       const storedTop = JSON.parse(localStorage.getItem(LS_TOP5) || '[]');
       const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_CUSTOM) || '[]');
@@ -516,7 +541,6 @@
             </span>`;
           top5El.appendChild(li);
         }
-        updateShareLinks(); // keep share URL in sync
       }
 
       function renderPool(){
@@ -626,64 +650,69 @@
       lockBtn.addEventListener('click', lockInVote);
       clearBtn.addEventListener('click', clearVote);
 
-      // ---- Share logic ----
-      function buildShareUrl(){
+      // ---- JPEG poster rendering & sharing ----
+      function populateShareCard(){
+        // date
+        const d = new Date();
+        shareDate.textContent = d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
+        // list
+        shareList.innerHTML = '';
         const picks = top5.filter(Boolean);
-        const data = encodeURIComponent(picks.join('|')); // simple & readable
-        const base = location.origin + location.pathname; // keep same page
-        return `${base}?top5=${data}`;
+        for(let i = 0; i < 5; i++){
+          const nm = picks[i] || '—';
+          const row = document.createElement('div');
+          row.className = 'row';
+          row.innerHTML = `<div class="idx">${i+1}</div>
+                           <div class="nm">${nm}</div>
+                           <div class="tag">GOATBoard</div>`;
+          shareList.appendChild(row);
+        }
       }
 
-      function updateShareLinks(){
-        const url = buildShareUrl();
-        const picks = top5.filter(Boolean);
-        const text = picks.length ? `My GOATBoard Top 5: ${picks.join(', ')}` : 'My GOATBoard Top 5';
-        shareLink.value = url;
-
-        shareX.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-        shareFB.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        shareWA.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`;
-        shareSMS.href = `sms:?&body=${encodeURIComponent(text + ' ' + url)}`;
-        shareTG.href = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+      async function generateJPEGBlob(){
+        populateShareCard();
+        // Ensure html2canvas is loaded
+        if (!window.html2canvas) {
+          alert('Image renderer not loaded. Please try again in a moment.');
+          return null;
+        }
+        // Render to canvas
+        const canvas = await html2canvas(shareCard, {
+          backgroundColor: null, // keep our gradient
+          scale: 2,              // crisp output on retina
+          useCORS: true
+        });
+        return new Promise(resolve => canvas.toBlob(
+          blob => resolve(blob),
+          'image/jpeg',
+          0.92
+        ));
       }
 
-      copyLink.addEventListener('click', async ()=>{
-        try{
-          await navigator.clipboard.writeText(shareLink.value);
-          copyLink.textContent = '✅ Copied!';
-          setTimeout(()=> copyLink.textContent = '📋 Copy link', 1200);
-        }catch(e){
-          shareLink.select(); document.execCommand('copy');
-        }
-      });
+      async function shareOrDownloadJPEG(){
+        const blob = await generateJPEGBlob();
+        if(!blob) return;
+        const file = new File([blob], 'goatboard-top5.jpg', { type: 'image/jpeg' });
 
-      shareNative.addEventListener('click', async ()=>{
-        const url = buildShareUrl();
-        const picks = top5.filter(Boolean);
-        const text = picks.length ? `My GOATBoard Top 5: ${picks.join(', ')}` : 'My GOATBoard Top 5';
-        if(navigator.share){
-          try{
-            await navigator.share({ title: 'GOATBoard — My Top 5', text, url });
-          }catch(e){ /* user cancelled */ }
-        }else{
-          // fallback: copy link
-          await navigator.clipboard?.writeText(url);
-          alert('Link copied! Share it anywhere.');
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'GOATBoard — My Top 5',
+              text: 'My GOATBoard Top 5 (21st Century)'
+            });
+            return;
+          } catch(e) { /* user cancelled; fall through to download */ }
         }
-      });
+        // Fallback: download
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'goatboard-top5.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }
 
-      // Import from ?top5= if present
-      (function importFromQuery(){
-        const qs = new URLSearchParams(location.search);
-        const raw = qs.get('top5');
-        if(!raw) return;
-        const picks = decodeURIComponent(raw).split('|').filter(Boolean).slice(0,5);
-        if(picks.length){
-          top5 = picks.concat(Array(Math.max(0,5-picks.length)).fill('')).slice(0,5);
-          saveTop();
-          renderTop5();
-        }
-      })();
+      shareBtn.addEventListener('click', shareOrDownloadJPEG);
 
       // initial render
       renderTop5(); renderPool(); renderPoll();
@@ -691,6 +720,7 @@
   </script>
 </body>
 </html>
+
 
 
 
