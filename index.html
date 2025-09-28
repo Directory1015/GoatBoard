@@ -7,11 +7,12 @@
   <meta name="description" content="GOATBoard ranks the greatest footballers of the 21st century by position with clean visuals." />
 
   <!-- Security headers -->
+  <!-- Added a nonce so a small inline script (for JPEG share) can run without 'unsafe-inline' -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     img-src 'self' data:;
     style-src 'self' 'unsafe-inline';
-    script-src 'self';
+    script-src 'self' 'nonce-GB2025';
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
@@ -127,7 +128,7 @@
     .poll-bar{ height:10px; border-radius:999px; background:#0b0f1d; border:1px solid var(--divider); overflow:hidden; }
     .poll-bar > div{ height:100%; background:linear-gradient(90deg, var(--brand), var(--accent)); width:0%; transition:width .3s ease; }
     .poll-name{ font-weight:700; }
-    .poll-pct{ font-weight:800; color:var(--tx-dim); min-width:48px; text-align:right; }
+    .poll-pct{ font-weight:800; color:#{tx-dim}; min-width:48px; text-align:right; }
 
     .sharecard-wrap{ position:fixed; left:-99999px; top:-99999px; }
     .sharecard{
@@ -193,7 +194,8 @@
         </div>
         <div class="content">
           <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Goals • Assists • Trophies</span></div>
-          <ol class="rank" aria-label="Top 5 Soccer Players">
+          <!-- Added id="mainTop5" so the share script can fall back to this if builder list is empty -->
+          <ol id="mainTop5" class="rank" aria-label="Top 5 Soccer Players">
             <li>
               <span class="name">Lionel Messi</span>
               <span class="badges"><span class="badge goal">821</span><span class="badge ast">390</span><span class="badge trophy">44</span></span>
@@ -224,7 +226,7 @@
         </div>
       </section>
 
-      <!-- RIGHT COLUMN: POSITIONS (unchanged lists) -->
+      <!-- RIGHT COLUMN: POSITIONS (unchanged lists except RB updated) -->
       <section>
         <div class="section" aria-label="Top 5 by Soccer Position">
           <details open>
@@ -275,10 +277,10 @@
               <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Dani Alves</span><span class="badges"><span class="badge trophy">43</span></span></li>
+                <li><span class="name">Dani Carvajal</span><span class="badges"><span class="badge trophy">33</span></span></li>
                 <li><span class="name">Kyle Walker</span><span class="badges"><span class="badge trophy">12</span></span></li>
                 <li><span class="name">João Cancelo</span><span class="badges"><span class="badge trophy">14</span></span></li>
                 <li><span class="name">Achraf Hakimi</span><span class="badges"><span class="badge trophy">8</span></span></li>
-                <li><span class="name">Trent Alexander-Arnold</span><span class="badges"><span class="badge trophy">8</span></span></li>
               </ol>
             </div>
           </details>
@@ -484,11 +486,168 @@
     </div>
   </div>
 
-  <!-- Scripts (CSP-safe) -->
+  <!-- Scripts -->
   <script src="html2canvas.min.js" defer></script>
-  <script src="app.js" defer></script>
+
+  <!-- Minimal glue to make JPEG sharing bulletproof; uses nonce to satisfy CSP -->
+  <script nonce="GB2025">
+  (function(){
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    // Expand / Collapse
+    $('#expandAll')?.addEventListener('click', () => $$('details').forEach(d => d.open = true));
+    $('#collapseAll')?.addEventListener('click', () => $$('details').forEach(d => d.open = false));
+
+    // Simple builder (add/remove/reorder via up/down)
+    const top5List = $('#top5List');
+    const addPlayer = (name) => {
+      if (!name) return;
+      if ($$('li', top5List).length >= 5) return;
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="name">${name}</span>
+        <span class="badges"></span>
+        <div class="actions">
+          <button class="pill-btn up" type="button" aria-label="Move up">↑</button>
+          <button class="pill-btn down" type="button" aria-label="Move down">↓</button>
+          <button class="pill-btn rm" type="button" aria-label="Remove">✕</button>
+        </div>`;
+      top5List.appendChild(li);
+    };
+
+    $('#addFromSelect')?.addEventListener('click', () => addPlayer($('#playerSelect')?.value));
+    $('#addCustom')?.addEventListener('click', () => {
+      const v = $('#customPlayer')?.value?.trim();
+      if (v) { addPlayer(v); $('#customPlayer').value=''; }
+    });
+
+    top5List?.addEventListener('click', (e) => {
+      const btn = e.target.closest('button'); if (!btn) return;
+      const li = e.target.closest('li'); if (!li) return;
+      if (btn.classList.contains('rm')) li.remove();
+      if (btn.classList.contains('up') && li.previousElementSibling) li.parentNode.insertBefore(li, li.previousElementSibling);
+      if (btn.classList.contains('down') && li.nextElementSibling) li.parentNode.insertBefore(li.nextElementSibling, li);
+    });
+
+    // Poll (local-only demo totals)
+    const LS_POLL_COUNTS = 'goat_poll_counts_v1';
+    const LS_POLL_TOTAL = 'goat_poll_total_v1';
+    const pollRowsEl = $('#pollRows');
+    const pollTotalEl = $('#pollTotal');
+
+    function renderPoll(){
+      const counts = JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}');
+      const total = Number(localStorage.getItem(LS_POLL_TOTAL) || 0);
+      pollTotalEl.textContent = total;
+      pollRowsEl.innerHTML = '';
+      // Show top 5 from main list as the options
+      const names = $$('#mainTop5 > li .name').map(n => n.textContent.trim());
+      names.forEach(n => {
+        const c = counts[n] || 0;
+        const pct = total ? Math.round((c/total)*100) : 0;
+        const row = document.createElement('div');
+        row.className = 'poll-row';
+        row.innerHTML = `
+          <div class="poll-name">${n}</div>
+          <div class="poll-pct">${pct}%</div>
+          <div class="poll-bar"><div style="width:${pct}%"></div></div>
+        `;
+        pollRowsEl.appendChild(row);
+      });
+    }
+    renderPoll();
+
+    // Lock-in = count +1 for the #1 in your builder list (local demo)
+    $('#lockIn')?.addEventListener('click', () => {
+      const first = $('#top5List .name')?.textContent?.trim();
+      if (!first) { alert('Add at least one player to your Top 5 before locking in.'); return; }
+      const counts = JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}');
+      counts[first] = (counts[first] || 0) + 1;
+      localStorage.setItem(LS_POLL_COUNTS, JSON.stringify(counts));
+      localStorage.setItem(LS_POLL_TOTAL, String(Number(localStorage.getItem(LS_POLL_TOTAL) || 0) + 1));
+      renderPoll();
+    });
+
+    $('#clearVote')?.addEventListener('click', () => {
+      localStorage.removeItem(LS_POLL_COUNTS);
+      localStorage.removeItem(LS_POLL_TOTAL);
+      renderPoll();
+    });
+
+    // === Share as JPEG ===
+    // Fills the hidden poster with your list, then uses html2canvas to export a JPEG.
+    function getTop5Names() {
+      const fromBuilder = $$('#top5List .name').map(n => n.textContent.trim());
+      if (fromBuilder.length) return fromBuilder.slice(0,5);
+      const fromMain = $$('#mainTop5 .name').map(n => n.textContent.trim());
+      return fromMain.slice(0,5);
+    }
+
+    function fillPoster(names){
+      $('#shareDate').textContent = new Date().toLocaleDateString(undefined, {year:'numeric', month:'short', day:'2-digit'});
+      const list = $('#shareList');
+      list.innerHTML = '';
+      names.forEach((nm, i) => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <div class="idx">${i+1}</div>
+          <div class="nm">${nm}</div>
+          <div class="tag">GOATBoard</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    async function downloadJPEG(node, fileName){
+      if (!window.html2canvas) {
+        alert('html2canvas not found. Make sure html2canvas.min.js is present next to this HTML.');
+        return;
+      }
+      const canvas = await html2canvas(node, {
+        backgroundColor: null,
+        scale: Math.min(window.devicePixelRatio || 1, 2),
+        useCORS: false
+      });
+      return new Promise(resolve => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1500);
+          resolve();
+        }, 'image/jpeg', 0.92);
+      });
+    }
+
+    $('#shareImage')?.addEventListener('click', async () => {
+      const names = getTop5Names();
+      if (!names.length) { alert('Build or select a Top 5 first.'); return; }
+      fillPoster(names);
+      const poster = $('#shareCard');
+      try {
+        const ymd = new Date().toISOString().slice(0,10).replace(/-/g,'');
+        await downloadJPEG(poster, `GOATBoard-Top5-${ymd}.jpg`);
+      } catch (err){
+        console.error(err);
+        alert('Could not generate the image. Check the console for details.');
+      }
+    });
+
+  })();
+  </script>
+
+  <!-- (Optional) Keep your other site logic in app.js if you have more features -->
+  <!-- <script src="app.js" defer></script> -->
 </body>
 </html>
+
+
 
 
 
