@@ -5,8 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GOATBoard — Top Players</title>
   <meta name="description" content="GOATBoard ranks the greatest footballers of the 21st century by position with clean visuals." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' data:;
+    style-src 'self' 'unsafe-inline';
+    script-src 'self';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+  ">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="no-referrer-when-downgrade">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+  <!-- Local fonts are ideal for strict CSP; keeping Google Fonts out.
+       If you want Inter, you can self-host it later. -->
+
   <style>
     :root{
       --bg:#0b0d12; --bg-elev:#121520; --bg-hover:#1a1f2d; --tx:#e9edf7; --tx-dim:#a7b0c3;
@@ -17,7 +33,7 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
       background: radial-gradient(1200px 800px at 20% -10%, rgba(90,162,255,.15), transparent 60%),
                   radial-gradient(1000px 700px at 90% 10%, rgba(0,210,255,.12), transparent 50%),
                   var(--bg); color:var(--tx);
@@ -69,13 +85,10 @@
     .slot .actions{ display:flex; gap:6px }
     .pill-btn{ border:1px solid var(--divider); background:#151a27; color:var(--tx); border-radius:10px; padding:6px 8px; font-size:12px; font-weight:700; cursor:pointer }
     .pill-btn:hover{ background:#1a2030 }
-    .pool-list{ display:grid; gap:8px; }
-    .pool-item{ display:flex; align-items:center; gap:10px; border:1px solid var(--divider); background:linear-gradient(180deg,#151a2a,#111625); border-radius: var(--radius-lg); padding:8px 10px; }
-    .pool-item .name{ font-weight:700 }
-    .pool-item .add{ margin-left:auto }
-    .builder-input{ display:flex; gap:8px; }
-    .builder-input input{ flex:1; background:#0f1420; border:1px solid var(--divider); border-radius:12px; padding:10px 12px; color:var(--tx) }
-    .builder-input input::placeholder{ color:var(--tx-dim) }
+
+    .builder-controls{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    select.select{ flex:1; min-width:220px; background:#0f1420; color:var(--tx); border:1px solid var(--divider); border-radius:12px; padding:10px 12px; }
+    input.input{ flex:1; min-width:220px; background:#0f1420; color:var(--tx); border:1px solid var(--divider); border-radius:12px; padding:10px 12px; }
 
     /* CARD */
     .card{
@@ -95,7 +108,7 @@
     .rank li::before{ content: counter(item) "."; font-weight:800; width:26px; text-align:right; color:var(--tx-dim); }
     .rank .name{ font-weight:700; letter-spacing:.2px; }
     .badges{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
-    .badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid var(--divider); background:#0f1424; color:var(--tx-dim); }
+    .badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid var(--divider); background:#0f1424; color:#cbd5e1; }
     .badge.trophy{ color:#ffd76a; background:#1f1a08; border-color:#3a2f10; }
     .badge.goal{ color:#7dd3fc; } .badge.ast{ color:#a7f3d0; }
 
@@ -129,11 +142,11 @@
     .poll-pct{ font-weight:800; color:var(--tx-dim); min-width:48px; text-align:right; }
 
     /* SHARE: image poster template (hidden) */
-    .sharecard-wrap{ position:fixed; left:-99999px; top:-99999px; } /* off-screen */
+    .sharecard-wrap{ position:fixed; left:-99999px; top:-99999px; }
     .sharecard{
       width:1080px; height:1350px; /* IG portrait */
       background: radial-gradient(140% 90% at 10% 0%, #0e152a 0%, #0b0d12 35%, #07090f 100%);
-      color:#f5f7ff; padding:48px; display:flex; flex-direction:column; gap:24px; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:#f5f7ff; padding:48px; display:flex; flex-direction:column; gap:24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
     .sharecard .hdr{ display:flex; align-items:center; justify-content:space-between; }
     .sharecard .brand{ display:flex; align-items:center; gap:14px; }
@@ -153,7 +166,6 @@
 
     /* FOOTER */
     footer{ border-top:1px solid var(--divider); color:var(--tx-dim); text-align:center; padding:26px; margin-top:28px; }
-
     .muted{ color:var(--tx-dim); }
   </style>
 </head>
@@ -400,7 +412,7 @@
 
           <details>
             <summary><span class="sum-title">ST — Strikers</span><span class="sum-meta">Top 21st-century</span></summary>
-            <div class="panel>
+            <div class="panel">
               <div class="labels trophies"><span class="lab-left">Player</span><span class="lab-right">Trophies&nbsp;Won</span></div>
               <ol class="rank">
                 <li><span class="name">Ronaldo Nazário</span><span class="badges"><span class="badge trophy">15</span></span></li>
@@ -419,30 +431,28 @@
         <section class="card">
           <div class="head">
             <h2>Build Your Top 5</h2>
-            <span class="muted">Reorder with arrows, then lock/share</span>
+            <span class="muted">Pick from dropdown, reorder, then lock/share</span>
           </div>
           <div class="content">
-            <div class="builder-input" style="margin-bottom:10px">
-              <input id="customPlayer" type="text" placeholder="Add any player (name only)" />
-              <button id="addCustom" class="btn" type="button">Add</button>
+            <div class="builder-controls" style="margin-bottom:10px">
+              <select id="playerSelect" class="select" aria-label="Choose a player to add"></select>
+              <button id="addFromSelect" class="btn" type="button">＋ Add</button>
             </div>
+
             <ol id="top5List" class="rank" aria-label="Your Top 5"></ol>
-            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+
+            <div class="builder-controls" style="margin-top:10px">
+              <input id="customPlayer" class="input" type="text" placeholder="Add custom player (optional)" />
+              <button id="addCustom" class="btn small" type="button">Add custom</button>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
               <button id="lockIn" class="btn" type="button" title="Submit your Top 5">🔒 Lock In My Top 5</button>
               <button id="shareImage" class="btn" type="button" title="Share as JPEG">🖼️ Share as Image (JPEG)</button>
               <button id="clearVote" class="btn small" type="button" title="Reset your vote (this device only)">Reset</button>
             </div>
-            <div class="labels" style="margin-top:10px"><span class="lab-left">Tip</span><span class="lab-right">Max 5 players</span></div>
-          </div>
-        </section>
 
-        <section class="card" style="margin-top:14px">
-          <div class="head">
-            <h2>Player Pool</h2>
-            <span class="muted">Top 10 (21st Century)</span>
-          </div>
-          <div class="content">
-            <div id="poolList" class="pool-list" aria-label="Player Pool"></div>
+            <div class="labels" style="margin-top:10px"><span class="lab-left">Tip</span><span class="lab-right">Max 5 players</span></div>
           </div>
         </section>
       </aside>
@@ -478,8 +488,8 @@
     </div>
   </div>
 
-  <!-- html2canvas (client-side DOM → canvas) -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <!-- Load html2canvas locally (CSP: script-src 'self') -->
+  <script src="html2canvas.min.js" defer></script>
 
   <script>
     // Expand / Collapse helpers
@@ -502,9 +512,13 @@
       const LS_POLL_LOCKED = 'goat_poll_locked_v1';
 
       const top5El = document.getElementById('top5List');
-      const poolEl = document.getElementById('poolList');
+
+      const playerSelect = document.getElementById('playerSelect');
+      const addFromSelectBtn = document.getElementById('addFromSelect');
+
       const customInput = document.getElementById('customPlayer');
       const addCustomBtn = document.getElementById('addCustom');
+
       const lockBtn = document.getElementById('lockIn');
       const clearBtn = document.getElementById('clearVote');
       const shareBtn = document.getElementById('shareImage');
@@ -519,11 +533,25 @@
 
       const storedTop = JSON.parse(localStorage.getItem(LS_TOP5) || '[]');
       const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_CUSTOM) || '[]');
+
       let top5 = Array.isArray(storedTop) ? storedTop : [];
       let pool = [...defaultPool, ...storedCustom];
 
       function saveTop(){ localStorage.setItem(LS_TOP5, JSON.stringify(top5)); }
       function saveCustomPool(){ localStorage.setItem(LS_POOL_CUSTOM, JSON.stringify(pool.filter(p => !defaultPool.includes(p)))); }
+
+      function hydrateSelect(){
+        // keep unique, sorted with defaults first
+        const seen = new Set();
+        const ordered = [...defaultPool, ...pool.filter(p => !defaultPool.includes(p))];
+        playerSelect.innerHTML = '';
+        ordered.forEach(name=>{
+          if(seen.has(name)) return; seen.add(name);
+          const opt = document.createElement('option');
+          opt.value = name; opt.textContent = name;
+          playerSelect.appendChild(opt);
+        });
+      }
 
       function renderTop5(){
         top5El.innerHTML = '';
@@ -535,23 +563,12 @@
             <span class="index">${i+1}</span>
             <span class="who">${name || '<span class="muted">Empty slot</span>'}</span>
             <span class="actions">
-              <button class="pill-btn" data-act="up" data-idx="${i}">▲</button>
-              <button class="pill-btn" data-act="down" data-idx="${i}">▼</button>
-              <button class="pill-btn" data-act="remove" data-idx="${i}">✕</button>
+              <button class="pill-btn" data-act="up" data-idx="${i}" aria-label="Move up">▲</button>
+              <button class="pill-btn" data-act="down" data-idx="${i}" aria-label="Move down">▼</button>
+              <button class="pill-btn" data-act="remove" data-idx="${i}" aria-label="Remove">✕</button>
             </span>`;
           top5El.appendChild(li);
         }
-      }
-
-      function renderPool(){
-        poolEl.innerHTML = '';
-        pool.forEach(name => {
-          const row = document.createElement('div');
-          row.className = 'pool-item';
-          row.innerHTML = `<span class="name">${name}</span>
-                           <button class="pill-btn add" data-name="${name}">＋ Add</button>`;
-          poolEl.appendChild(row);
-        });
       }
 
       function addToTop5(name){
@@ -564,10 +581,19 @@
         saveTop(); renderTop5();
       }
 
-      poolEl.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.add'); if(!btn) return;
-        addToTop5(btn.getAttribute('data-name'));
+      addFromSelectBtn.addEventListener('click', ()=>{
+        const val = playerSelect.value;
+        addToTop5(val);
       });
+
+      addCustomBtn.addEventListener('click', ()=>{
+        const val = (customInput.value || '').trim();
+        if(!val) return;
+        if(!pool.includes(val)){ pool.push(val); saveCustomPool(); hydrateSelect(); }
+        addToTop5(val);
+        customInput.value='';
+      });
+      customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
 
       top5El.addEventListener('click', (e)=>{
         const btn = e.target.closest('.pill-btn'); if(!btn) return;
@@ -577,15 +603,6 @@
         if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; saveTop(); renderTop5(); return; }
         if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; saveTop(); renderTop5(); return; }
       });
-
-      addCustomBtn.addEventListener('click', ()=>{
-        const val = (customInput.value || '').trim();
-        if(!val) return;
-        if(!pool.includes(val)){ pool.push(val); saveCustomPool(); renderPool(); }
-        addToTop5(val);
-        customInput.value='';
-      });
-      customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
 
       // ---- Poll logic (device-only) ----
       function getCounts(){ return JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}'); }
@@ -652,10 +669,8 @@
 
       // ---- JPEG poster rendering & sharing ----
       function populateShareCard(){
-        // date
         const d = new Date();
         shareDate.textContent = d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
-        // list
         shareList.innerHTML = '';
         const picks = top5.filter(Boolean);
         for(let i = 0; i < 5; i++){
@@ -671,22 +686,12 @@
 
       async function generateJPEGBlob(){
         populateShareCard();
-        // Ensure html2canvas is loaded
         if (!window.html2canvas) {
-          alert('Image renderer not loaded. Please try again in a moment.');
+          alert('Image renderer not found. Place html2canvas.min.js next to index.html.');
           return null;
         }
-        // Render to canvas
-        const canvas = await html2canvas(shareCard, {
-          backgroundColor: null, // keep our gradient
-          scale: 2,              // crisp output on retina
-          useCORS: true
-        });
-        return new Promise(resolve => canvas.toBlob(
-          blob => resolve(blob),
-          'image/jpeg',
-          0.92
-        ));
+        const canvas = await html2canvas(shareCard, { backgroundColor: null, scale: 2, useCORS: true });
+        return new Promise(resolve => canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.92));
       }
 
       async function shareOrDownloadJPEG(){
@@ -696,13 +701,9 @@
 
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
-            await navigator.share({
-              files: [file],
-              title: 'GOATBoard — My Top 5',
-              text: 'My GOATBoard Top 5 (21st Century)'
-            });
+            await navigator.share({ files: [file], title: 'GOATBoard — My Top 5', text: 'My GOATBoard Top 5 (21st Century)' });
             return;
-          } catch(e) { /* user cancelled; fall through to download */ }
+          } catch(e) { /* user cancelled */ }
         }
         // Fallback: download
         const url = URL.createObjectURL(blob);
@@ -714,12 +715,15 @@
 
       shareBtn.addEventListener('click', shareOrDownloadJPEG);
 
-      // initial render
-      renderTop5(); renderPool(); renderPoll();
+      // Init
+      hydrateSelect();
+      renderTop5();
+      renderPoll();
     })();
   </script>
 </body>
 </html>
+
 
 
 
