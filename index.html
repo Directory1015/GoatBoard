@@ -9,22 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0d12;         /* page background */
-      --bg-elev:#121520;    /* cards */
-      --bg-hover:#1a1f2d;   /* hover */
-      --tx:#e9edf7;         /* text */
-      --tx-dim:#a7b0c3;     /* secondary text */
-      --brand:#5aa2ff;      /* royal-ish blue */
-      --accent:#00d2ff;     /* cyan accent */
-      --ok:#39d98a;         /* green accent */
-      --chip:#1f2434;       /* chip bg */
-      --divider:#2a3145;    /* borders */
+      --bg:#0b0d12; --bg-elev:#121520; --bg-hover:#1a1f2d; --tx:#e9edf7; --tx-dim:#a7b0c3;
+      --brand:#5aa2ff; --accent:#00d2ff; --ok:#39d98a; --chip:#1f2434; --divider:#2a3145;
       --shadow: 0 8px 30px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.3);
-      --radius-xl: 18px;
-      --radius-lg: 14px;
-      --radius-md: 12px;
-      --radius-sm: 10px;
-      --maxw: 1200px;
+      --radius-xl: 18px; --radius-lg: 14px; --radius-md: 12px; --radius-sm: 10px; --maxw: 1200px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -32,8 +20,7 @@
       margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
       background: radial-gradient(1200px 800px at 20% -10%, rgba(90,162,255,.15), transparent 60%),
                   radial-gradient(1000px 700px at 90% 10%, rgba(0,210,255,.12), transparent 50%),
-                  var(--bg);
-      color:var(--tx);
+                  var(--bg); color:var(--tx);
     }
     a{color:inherit}
     .shell{max-width:var(--maxw); margin-inline:auto; padding:24px;}
@@ -64,6 +51,7 @@
       cursor:pointer; user-select:none;
     }
     .btn:hover{ transform: translateY(-1px); border-color:#384062; background:#151a27; }
+    .btn.small{ padding:8px 12px; border-radius:10px; font-size:13px; }
 
     .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
     .chip{ background:var(--chip); border:1px solid var(--divider); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--tx-dim); }
@@ -104,16 +92,12 @@
     .rank{ counter-reset: item; display:grid; gap:8px; margin:0; padding:0; list-style:none; }
     .rank li{ counter-increment: item; background: linear-gradient(180deg, #151a2a, #111625);
       border:1px solid var(--divider); border-radius: var(--radius-lg); padding:12px 14px; display:flex; align-items:center; gap:12px; }
-    .rank li::before{
-      content: counter(item) "."; font-weight:800; width:26px; text-align:right; color:var(--tx-dim);
-    }
+    .rank li::before{ content: counter(item) "."; font-weight:800; width:26px; text-align:right; color:var(--tx-dim); }
     .rank .name{ font-weight:700; letter-spacing:.2px; }
     .badges{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
     .badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid var(--divider); background:#0f1424; color:var(--tx-dim); }
-    .badge svg{ width:14px; height:14px; }
-    .badge.trophy{ color:#ffd76a; background: #1f1a08; border-color: #3a2f10; }
-    .badge.goal{ color:#7dd3fc; }
-    .badge.ast{ color:#a7f3d0; }
+    .badge.trophy{ color:#ffd76a; background:#1f1a08; border-color:#3a2f10; }
+    .badge.goal{ color:#7dd3fc; } .badge.ast{ color:#a7f3d0; }
 
     /* COLUMN LABELS */
     .labels{display:flex; align-items:center; gap:12px; margin:2px 2px 10px; padding:6px 10px; font-size:12px; color:var(--tx-dim);
@@ -125,7 +109,6 @@
     /* SECTION GROUPS */
     .section{ margin-top:22px; }
     .section h3{ display:flex; align-items:center; gap:10px; color:var(--brand); font-size:16px; letter-spacing:.3px; margin:10px 0 10px; }
-    .section h3 .mini{ width:18px; height:18px; opacity:.9 }
 
     /* ACCORDION for Positions */
     details{ border:1px solid var(--divider); border-radius: var(--radius-xl); overflow:hidden; background: linear-gradient(180deg, #121522, #0f1320); box-shadow: var(--shadow); }
@@ -136,12 +119,20 @@
     .sum-meta{ color:var(--tx-dim); font-size:12px; }
     .panel{ padding:10px 16px 16px; border-top:1px solid var(--divider); }
 
+    /* POLL */
+    .poll{ margin-top:16px; border:1px solid var(--divider); border-radius:14px; padding:14px; background:linear-gradient(180deg,#13172a,#0f1322); }
+    .poll h3{ margin:0 0 12px; font-size:16px; color:var(--brand); letter-spacing:.3px; }
+    .poll .meta{ font-size:12px; color:var(--tx-dim); margin-bottom:10px; }
+    .poll-row{ display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:center; margin:8px 0; }
+    .poll-bar{ height:10px; border-radius:999px; background:#0b0f1d; border:1px solid var(--divider); overflow:hidden; }
+    .poll-bar > div{ height:100%; background:linear-gradient(90deg, var(--brand), var(--accent)); width:0%; transition:width .3s ease; }
+    .poll-name{ font-weight:700; }
+    .poll-pct{ font-weight:800; color:var(--tx-dim); min-width:48px; text-align:right; }
+
     /* FOOTER */
     footer{ border-top:1px solid var(--divider); color:var(--tx-dim); text-align:center; padding:26px; margin-top:28px; }
 
-    /* UTILS */
     .muted{ color:var(--tx-dim); }
-    .spacer{ height:8px }
   </style>
 </head>
 <body>
@@ -149,7 +140,6 @@
     <div class="hero">
       <div class="brand">
         <div class="logo" aria-hidden="true">
-          <!-- GOAT logo: trophy + star -->
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M12 2l1.8 3.7 4.1.6-3 3 0.7 4.2L12 11.7 8.4 13.5l.7-4.2-3-3 4.1-.6L12 2z" fill="#fff" opacity=".85"/>
             <path d="M7 21h10v1.4c0 .9-.7 1.6-1.6 1.6H8.6A1.6 1.6 0 0 1 7 22.4V21z" fill="#fff" opacity=".08"/>
@@ -167,8 +157,8 @@
       </div>
 
       <div class="toolbar">
-        <button class="btn" id="expandAll" type="button" title="Expand all sections">▼ Expand all</button>
-        <button class="btn" id="collapseAll" type="button" title="Collapse all sections">▲ Collapse all</button>
+        <button class="btn small" id="expandAll" type="button" title="Expand all sections">▼ Expand all</button>
+        <button class="btn small" id="collapseAll" type="button" title="Collapse all sections">▲ Collapse all</button>
       </div>
     </div>
   </header>
@@ -189,7 +179,7 @@
               <span class="badges">
                 <span class="badge goal" title="Goals">821</span>
                 <span class="badge ast" title="Assists">390</span>
-                <span class="badge trophy trophy-badge" title="Trophies">44</span>
+                <span class="badge trophy" title="Trophies">44</span>
               </span>
             </li>
             <li>
@@ -197,7 +187,7 @@
               <span class="badges">
                 <span class="badge goal" title="Goals">895</span>
                 <span class="badge ast" title="Assists">290</span>
-                <span class="badge trophy trophy-badge" title="Trophies">35</span>
+                <span class="badge trophy" title="Trophies">35</span>
               </span>
             </li>
             <li>
@@ -205,7 +195,7 @@
               <span class="badges">
                 <span class="badge goal" title="Goals">57</span>
                 <span class="badge ast" title="Assists">140</span>
-                <span class="badge trophy trophy-badge" title="Trophies">37</span>
+                <span class="badge trophy" title="Trophies">37</span>
               </span>
             </li>
             <li>
@@ -213,7 +203,7 @@
               <span class="badges">
                 <span class="badge goal" title="Goals">125</span>
                 <span class="badge ast" title="Assists">143</span>
-                <span class="badge trophy trophy-badge" title="Trophies">15</span>
+                <span class="badge trophy" title="Trophies">15</span>
               </span>
             </li>
             <li>
@@ -221,10 +211,17 @@
               <span class="badges">
                 <span class="badge goal" title="Goals">42</span>
                 <span class="badge ast" title="Assists">85</span>
-                <span class="badge trophy trophy-badge" title="Trophies">23</span>
+                <span class="badge trophy" title="Trophies">23</span>
               </span>
             </li>
           </ol>
+
+          <!-- POLL RESULTS -->
+          <div id="poll" class="poll" aria-live="polite" aria-atomic="true">
+            <h3>Community Lock-ins</h3>
+            <div class="meta"><span id="pollTotal">0</span> total submissions on this device</div>
+            <div id="pollRows"></div>
+          </div>
         </div>
       </section>
 
@@ -423,7 +420,7 @@
         <section class="card">
           <div class="head">
             <h2>Build Your Top 5</h2>
-            <span class="muted">Drag with arrows or remove</span>
+            <span class="muted">Reorder with arrows, then lock in</span>
           </div>
           <div class="content">
             <div class="builder-input" style="margin-bottom:10px">
@@ -431,6 +428,10 @@
               <button id="addCustom" class="btn" type="button">Add</button>
             </div>
             <ol id="top5List" class="rank" aria-label="Your Top 5"></ol>
+            <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+              <button id="lockIn" class="btn" type="button" title="Submit your Top 5">🔒 Lock In My Top 5</button>
+              <button id="clearVote" class="btn small" type="button" title="Reset your vote (this device only)">Reset</button>
+            </div>
             <div class="labels" style="margin-top:10px"><span class="lab-left">Tip</span><span class="lab-right">Max 5 players</span></div>
           </div>
         </section>
@@ -460,40 +461,35 @@
     expandAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = true));
     collapseAll?.addEventListener('click', ()=> allDetails().forEach(d => d.open = false));
 
-    // Optional: click a badge to highlight trophies column in a section
-    document.querySelectorAll('.badge.trophy').forEach(b => {
-      b.addEventListener('mouseenter', e => {
-        const panel = e.target.closest('.panel') || document;
-        panel.querySelectorAll('.badge.trophy').forEach(x=> x.style.boxShadow='0 0 0 2px rgba(255,215,106,.35)');
-      });
-      b.addEventListener('mouseleave', e => {
-        const panel = e.target.closest('.panel') || document;
-        panel.querySelectorAll('.badge.trophy').forEach(x=> x.style.boxShadow='none');
-      });
-    });
-
-    // === GOATBoard Builder ===
+    // === GOATBoard Builder + Poll (local-only) ===
     (function(){
       const defaultPool = [
         "Lionel Messi","Cristiano Ronaldo","Zinedine Zidane","Andrés Iniesta","Luka Modrić",
         "Ronaldinho","Xavi Hernández","Neymar Jr.","Robert Lewandowski","Thierry Henry"
       ];
-      const LS_KEY = 'goat_top5_v1';
-      const LS_POOL_KEY = 'goat_pool_custom_v1';
+      const LS_TOP5 = 'goat_top5_v1';
+      const LS_POOL_CUSTOM = 'goat_pool_custom_v1';
+      const LS_POLL_COUNTS = 'goat_poll_counts_v1';
+      const LS_POLL_TOTAL = 'goat_poll_total_v1';
+      const LS_POLL_LOCKED = 'goat_poll_locked_v1'; // prevent multiple votes on this device
 
       const top5El = document.getElementById('top5List');
       const poolEl = document.getElementById('poolList');
       const customInput = document.getElementById('customPlayer');
       const addCustomBtn = document.getElementById('addCustom');
+      const lockBtn = document.getElementById('lockIn');
+      const clearBtn = document.getElementById('clearVote');
 
-      const stored = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-      const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_KEY) || '[]');
+      const pollRows = document.getElementById('pollRows');
+      const pollTotal = document.getElementById('pollTotal');
 
-      let top5 = Array.isArray(stored) ? stored : [];
+      const storedTop = JSON.parse(localStorage.getItem(LS_TOP5) || '[]');
+      const storedCustom = JSON.parse(localStorage.getItem(LS_POOL_CUSTOM) || '[]');
+      let top5 = Array.isArray(storedTop) ? storedTop : [];
       let pool = [...defaultPool, ...storedCustom];
 
-      function save(){ localStorage.setItem(LS_KEY, JSON.stringify(top5)); }
-      function saveCustom(){ localStorage.setItem(LS_POOL_KEY, JSON.stringify(pool.filter(p=>!defaultPool.includes(p)))); }
+      function saveTop(){ localStorage.setItem(LS_TOP5, JSON.stringify(top5)); }
+      function saveCustomPool(){ localStorage.setItem(LS_POOL_CUSTOM, JSON.stringify(pool.filter(p => !defaultPool.includes(p)))); }
 
       function renderTop5(){
         top5El.innerHTML = '';
@@ -503,7 +499,7 @@
           li.className = 'slot';
           li.innerHTML = `
             <span class="index">${i+1}</span>
-            <span class="who">${name || '<span class=\'muted\'>Empty slot</span>'}</span>
+            <span class="who">${name || '<span class="muted">Empty slot</span>'}</span>
             <span class="actions">
               <button class="pill-btn" data-act="up" data-idx="${i}">▲</button>
               <button class="pill-btn" data-act="down" data-idx="${i}">▼</button>
@@ -531,41 +527,105 @@
         if(emptyIdx !== -1){ top5[emptyIdx] = name; }
         else if(top5.length < 5){ top5.push(name); }
         else { alert('Top 5 is full. Remove a slot or move items to add new ones.'); return; }
-        save(); renderTop5();
+        saveTop(); renderTop5();
       }
 
       poolEl.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.add');
-        if(!btn) return;
+        const btn = e.target.closest('.add'); if(!btn) return;
         addToTop5(btn.getAttribute('data-name'));
       });
 
       top5El.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.pill-btn');
-        if(!btn) return;
+        const btn = e.target.closest('.pill-btn'); if(!btn) return;
         const idx = parseInt(btn.getAttribute('data-idx'),10);
         const act = btn.getAttribute('data-act');
-        if(act==='remove'){ top5[idx] = ''; save(); renderTop5(); return; }
-        if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; save(); renderTop5(); return; }
-        if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; save(); renderTop5(); return; }
+        if(act==='remove'){ top5[idx] = ''; saveTop(); renderTop5(); return; }
+        if(act==='up' && idx>0){ [top5[idx-1], top5[idx]] = [top5[idx], top5[idx-1]]; saveTop(); renderTop5(); return; }
+        if(act==='down' && idx<4){ [top5[idx+1], top5[idx]] = [top5[idx], top5[idx+1]]; saveTop(); renderTop5(); return; }
       });
 
       addCustomBtn.addEventListener('click', ()=>{
         const val = (customInput.value || '').trim();
         if(!val) return;
-        if(pool.includes(val)) { addToTop5(val); customInput.value=''; return; }
-        pool.push(val); saveCustom(); renderPool(); addToTop5(val); customInput.value='';
+        if(!pool.includes(val)){ pool.push(val); saveCustomPool(); renderPool(); }
+        addToTop5(val);
+        customInput.value='';
       });
-
       customInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustomBtn.click(); }});
 
+      // ---- Poll logic (device-only) ----
+      function getCounts(){ return JSON.parse(localStorage.getItem(LS_POLL_COUNTS) || '{}'); }
+      function setCounts(obj){ localStorage.setItem(LS_POLL_COUNTS, JSON.stringify(obj)); }
+      function getTotal(){ return parseInt(localStorage.getItem(LS_POLL_TOTAL) || '0',10); }
+      function setTotal(n){ localStorage.setItem(LS_POLL_TOTAL, String(n)); }
+
+      function renderPoll(){
+        const counts = getCounts();
+        const total = getTotal();
+        pollTotal.textContent = total;
+        pollRows.innerHTML = '';
+
+        // make a list of [name, count], sort desc, show top 15
+        const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,15);
+        if(entries.length === 0){
+          const hint = document.createElement('div');
+          hint.className = 'meta';
+          hint.textContent = 'No submissions yet. Build your Top 5 on the right and lock it in!';
+          pollRows.appendChild(hint);
+          return;
+        }
+
+        entries.forEach(([name, cnt])=>{
+          const pct = total > 0 ? Math.round((cnt/total)*100) : 0;
+          const row = document.createElement('div'); row.className = 'poll-row';
+          const left = document.createElement('div');
+          left.innerHTML = `<div class="poll-name">${name}</div><div class="poll-bar"><div style="width:${pct}%"></div></div>`;
+          const right = document.createElement('div'); right.className = 'poll-pct'; right.textContent = pct + '%';
+          row.appendChild(left); row.appendChild(right);
+          pollRows.appendChild(row);
+        });
+      }
+
+      function lockInVote(){
+        const already = localStorage.getItem(LS_POLL_LOCKED) === '1';
+        if(already){
+          alert('You already locked in your Top 5 on this device.');
+          return;
+        }
+        const picks = top5.filter(Boolean);
+        if(picks.length < 5){
+          if(!confirm('You have fewer than 5 players. Lock in anyway?')) return;
+        }
+        const counts = getCounts();
+        picks.forEach(name => { counts[name] = (counts[name]||0) + 1; });
+        setCounts(counts);
+        setTotal(getTotal()+1);
+        localStorage.setItem(LS_POLL_LOCKED,'1');
+        renderPoll();
+        alert('Locked! Your Top 5 was counted on this device.');
+      }
+
+      function clearVote(){
+        // Dev/reset helper for demos
+        if(confirm('Reset your local poll submission and counts on this device?')){
+          localStorage.removeItem(LS_POLL_LOCKED);
+          localStorage.removeItem(LS_POLL_COUNTS);
+          localStorage.removeItem(LS_POLL_TOTAL);
+          renderPoll();
+          alert('Local poll data cleared.');
+        }
+      }
+
+      lockBtn.addEventListener('click', lockInVote);
+      clearBtn.addEventListener('click', clearVote);
+
       // initial render
-      renderTop5();
-      renderPool();
+      renderTop5(); renderPool(); renderPoll();
     })();
   </script>
 </body>
 </html>
+
 
 
 
