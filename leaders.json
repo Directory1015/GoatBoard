@@ -81,8 +81,8 @@
       "name": "UEFA Champions League",
       "record": { "holder": "Cristiano Ronaldo", "goals": "17", "season": "2013/14" },
       "scorers": [
+        { "name": "Kylian Mbappé (Real Madrid)", "value": "4" },
         { "name": "Francisco Trincão (Sporting CP)", "value": "2" },
-        { "name": "Kylian Mbappé (Real Madrid)", "value": "2" },
         { "name": "Marcos Llorente (Atlético Madrid)", "value": "2" }
       ],
       "assisters": [
