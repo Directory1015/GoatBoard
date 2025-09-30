@@ -1,0 +1,95 @@
+{
+  "updated": "2025-09-28",
+  "competitions": [
+    {
+      "key": "epl",
+      "name": "Premier League",
+      "record": { "holder": "Erling Haaland", "goals": "36", "season": "2022/23" },
+      "scorers": [
+        { "name": "Erling Haaland (Man City)", "value": "8" },
+        { "name": "Antoine Semenyo (Bournemouth)", "value": "4" },
+        { "name": "Jaidon Anthony (Burnley)", "value": "4" }
+      ],
+      "assisters": [
+        { "name": "Jack Grealish (Everton)", "value": "4" },
+        { "name": "Mohammed Kudus (Tottenham Hotspur)", "value": "4" },
+        { "name": "El Hadji Malick Diouf (West Ham United)", "value": "3" }
+      ]
+    },
+    {
+      "key": "laliga",
+      "name": "La Liga",
+      "record": { "holder": "Lionel Messi", "goals": "50", "season": "2011/12" },
+      "scorers": [
+        { "name": "Kylian Mbappé (Real Madrid)", "value": "8" },
+        { "name": "Julián Álvarez (Atl. Madrid)", "value": "6" },
+        { "name": "Etta Eyong (Levante)", "value": "4" }
+      ],
+      "assisters": [
+        { "name": "Vinícius Júnior (Real Madrid)", "value": "4" },
+        { "name": "Luis Milla (Getafe)", "value": "4" },
+        { "name": "Lamine Yamal (Barcelona)", "value": "3" }
+      ]
+    },
+    {
+      "key": "seriea",
+      "name": "Serie A",
+      "record": { "holder": "Ciro Immobile", "goals": "36", "season": "2019/20" },
+      "scorers": [
+        { "name": "Christian Pulisic (AC Milan)", "value": "4" },
+        { "name": "Nico Paz (Como)", "value": "3" },
+        { "name": "Marcus Thuram (Inter)", "value": "3" }
+      ],
+      "assisters": [
+        { "name": "Kenan Yıldız (Juventus Turin)", "value": "3" },
+        { "name": "Nico Paz (Como 1907)", "value": "3" },
+        { "name": "Nikola Krstović (Atalanta Bergamo)", "value": "3" }
+      ]
+    },
+    {
+      "key": "bundesliga",
+      "name": "Bundesliga",
+      "record": { "holder": "Robert Lewandowski", "goals": "41", "season": "2020/21" },
+      "scorers": [
+        { "name": "Harry Kane (Bayern Munich)", "value": "10" },
+        { "name": "Can Uzun (Eintracht Frankfurt)", "value": "5" },
+        { "name": "Fisnik Asllani (Hoffenheim)", "value": "4" }
+      ],
+      "assisters": [
+        { "name": "Andrej Ilic (1. FC Union Berlin)", "value": "4" },
+        { "name": "Samuel Mbangula (SV Werder Bremen)", "value": "3" },
+        { "name": "Ritsu Doan (Eintracht Frankfurt)", "value": "3" }
+      ]
+    },
+    {
+      "key": "ligue1",
+      "name": "Ligue 1",
+      "record": { "holder": "Kylian Mbappé", "goals": "27", "season": "2018/19" },
+      "scorers": [
+        { "name": "Ansu Fati (Monaco)", "value": "3" },
+        { "name": "Pierre-Emerick Aubameyang (Marseille)", "value": "3" },
+        { "name": "Bradley Barcola (PSG)", "value": "3" }
+      ],
+      "assisters": [
+        { "name": "Ludovic Ajorque (Stade Brest 29)", "value": "4" },
+        { "name": "Dilane Bakwa (RC Strasbourg Alsace)", "value": "3" },
+        { "name": "Félix Correia (LOSC Lille)", "value": "3" }
+      ]
+    },
+    {
+      "key": "ucl",
+      "name": "UEFA Champions League",
+      "record": { "holder": "Cristiano Ronaldo", "goals": "17", "season": "2013/14" },
+      "scorers": [
+        { "name": "Francisco Trincão (Sporting CP)", "value": "2" },
+        { "name": "Kylian Mbappé (Real Madrid)", "value": "2" },
+        { "name": "Marcos Llorente (Atlético Madrid)", "value": "2" }
+      ],
+      "assisters": [
+        { "name": "Lukáš Provod (Slavia Praha)", "value": "2" },
+        { "name": "Hakan Çalhanoğlu (Inter Milan)", "value": "2" },
+        { "name": "Lamine Yamal (Barcelona)", "value": "1" }
+      ]
+    }
+  ]
+}
