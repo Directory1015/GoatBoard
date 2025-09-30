@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GOATBoard — Home</title>
-  <meta name="description" content="GOATBoard — soccer-first hub with quick links and live-updatable leaders." />
+  <meta name="description" content="GOATBoard — soccer-first hub with quick links and weekly leaders." />
   <style>
     :root{
       --bg:#0b0d12; --panel:#111724; --panel2:#0f1522; --tx:#e8edf7; --tx-dim:#a6b0c3;
@@ -48,10 +48,7 @@
     h1{ margin:0 0 6px; font-size: clamp(24px, 4.2vw, 34px); letter-spacing:.2px }
     .tag{ color:var(--tx-dim); margin:0 auto 8px; font-size:13px }
 
-    .grid{
-      display:grid; gap:12px;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
+    .grid{ display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 
     .card{
       background:linear-gradient(180deg, var(--panel), var(--panel2));
@@ -77,7 +74,6 @@
     .col h4{ margin:0 0 6px; font-size:12px; color:var(--brand); letter-spacing:.3px }
 
     .list{ display:grid; gap:6px; margin:0; padding:0; list-style:none; counter-reset:item }
-    /* 3-column GRID row: idx | name (flexible) | value (fixed) */
     .list li{
       counter-increment:item;
       display:grid; grid-template-columns: 18px 1fr auto; align-items:center; gap:8px;
@@ -91,8 +87,7 @@
     .val{
       font-weight:900; color:#cfe2ff; font-size:12.5px;
       padding:2px 8px; border-radius:8px; border:1px solid var(--divider);
-      background:#0f1522; justify-self:end;
-      min-width:24px; text-align:center;
+      background:#0f1522; justify-self:end; min-width:24px; text-align:center;
     }
 
     .muted{ color:var(--tx-dim) }
@@ -123,168 +118,79 @@
   <footer>© 2025 GOATBoard</footer>
 
   <script>
-    // Static data — update weekly by editing the arrays below.
-    const DATA = {
-      updated: '2025-09-28',
-      competitions: [
-        {
-          key:'epl',
-          name:'Premier League',
-          record: { holder: 'Erling Haaland', goals: '36', season: '2022/23' },
-          /* UPDATED SCORERS */
-          scorers: [
-            { name:'Erling Haaland (Man City)', value:'8' },
-            { name:'Antoine Semenyo (Bournemouth)', value:'4' },
-            { name:'Jaidon Anthony (Burnley)', value:'4' },
-          ],
-          assisters: [
-            { name:'Jack Grealish (Everton)', value:'4' },
-            { name:'Mohammed Kudus (Tottenham Hotspur)', value:'4' },
-            { name:'El Hadji Malick Diouf (West Ham United)', value:'3' },
-          ]
-        },
-        {
-          key:'laliga',
-          name:'La Liga',
-          record: { holder: 'Lionel Messi', goals: '50', season: '2011/12' },
-          /* UPDATED SCORERS */
-          scorers: [
-            { name:'Kylian Mbappé (Real Madrid)', value:'8' },
-            { name:'Julián Álvarez (Atl. Madrid)', value:'6' },
-            { name:'Etta Eyong (Levante)', value:'4' },
-          ],
-          assisters: [
-            { name:'Vinícius Júnior (Real Madrid)', value:'4' },
-            { name:'Luis Milla (Getafe)', value:'4' },
-            { name:'Lamine Yamal (Barcelona)', value:'3' },
-          ]
-        },
-        {
-          key:'seriea',
-          name:'Serie A',
-          record: { holder: 'Ciro Immobile', goals: '36', season: '2019/20' },
-          /* UPDATED SCORERS */
-          scorers: [
-            { name:'Christian Pulisic (AC Milan)', value:'4' },
-            { name:'Nico Paz (Como)', value:'3' },
-            { name:'Marcus Thuram (Inter)', value:'3' },
-          ],
-          assisters: [
-            { name:'Kenan Yıldız (Juventus Turin)', value:'3' },
-            { name:'Nico Paz (Como 1907)', value:'3' },
-            { name:'Nikola Krstović (Atalanta Bergamo)', value:'3' },
-          ]
-        },
-        {
-          key:'bundesliga',
-          name:'Bundesliga',
-          record: { holder: 'Robert Lewandowski', goals: '41', season: '2020/21' },
-          /* UPDATED SCORERS */
-          scorers: [
-            { name:'Harry Kane (Bayern Munich)', value:'10' },
-            { name:'Can Uzun (Eintracht Frankfurt)', value:'5' },
-            { name:'Fisnik Asllani (Hoffenheim)', value:'4' },
-          ],
-          assisters: [
-            { name:'Andrej Ilic (1. FC Union Berlin)', value:'4' },
-            { name:'Samuel Mbangula (SV Werder Bremen)', value:'3' },
-            { name:'Ritsu Doan (Eintracht Frankfurt)', value:'3' },
-          ]
-        },
-        {
-          key:'ligue1',
-          name:'Ligue 1',
-          /* Absolute record: Josip Skoblar 44 (1970/71) — using modern-era benchmark. */
-          record: { holder: 'Kylian Mbappé', goals: '27', season: '2018/19' },
-          /* Scorers unchanged (no new screenshot provided) */
-          scorers: [
-            { name:'Ansu Fati (Monaco)', value:'3' },
-            { name:'Pierre-Emerick Aubameyang (Marseille)', value:'3' },
-            { name:'Bradley Barcola (PSG)', value:'3' },
-          ],
-          assisters: [
-            { name:'Ludovic Ajorque (Stade Brest 29)', value:'4' },
-            { name:'Dilane Bakwa (RC Strasbourg Alsace)', value:'3' },
-            { name:'Félix Correia (LOSC Lille)', value:'3' },
-          ]
-        },
-        {
-          key:'ucl',
-          name:'UEFA Champions League',
-          record: { holder: 'Cristiano Ronaldo', goals: '17', season: '2013/14' },
-          /* UCL scorers unchanged from earlier note */
-          scorers: [
-            { name:'Francisco Trincão (Sporting CP)', value:'2' },
-            { name:'Kylian Mbappé (Real Madrid)', value:'2' },
-            { name:'Marcos Llorente (Atlético Madrid)', value:'2' },
-          ],
-          assisters: [
-            { name:'Lukáš Provod (Slavia Praha)', value:'2' },
-            { name:'Hakan Çalhanoğlu (Inter Milan)', value:'2' },
-            { name:'Lamine Yamal (Barcelona)', value:'1' },
-          ]
-        }
-      ]
-    };
-
     const $ = (s, r=document)=>r.querySelector(s);
 
-    function render(){
-      const wrap = $('#cards');
-      wrap.innerHTML = DATA.competitions.map(c => {
-        return `
-          <section class="card" data-key="${c.key}">
-            <div class="hd">
-              <div class="ttl">${c.name}</div>
-              <div class="meta">${new Date(DATA.updated).toLocaleDateString()}</div>
-            </div>
-
-            <div class="record" title="All-Time Single-Season League Record">
-              <span>All-time single-season record:&nbsp;</span>
-              <b class="nm">${c.record.holder}</b>
-              <span class="muted">•</span>
-              <span>${c.record.goals}</span>
-              <span class="muted">goals</span>
-              <span class="muted">•</span>
-              <span>${c.record.season}</span>
-            </div>
-
-            <div class="cols">
-              <div class="col">
-                <h4>Current Top 3 Scorers</h4>
-                <ol class="list">
-                  ${c.scorers.map((p,i)=>`
-                    <li>
-                      <span class="idx">${i+1}.</span>
-                      <span class="nm">${p.name}</span>
-                      <span class="val">${p.value}</span>
-                    </li>
-                  `).join('')}
-                </ol>
-              </div>
-
-              <div class="col">
-                <h4>Current Top 3 Assisters</h4>
-                <ol class="list">
-                  ${c.assisters.map((p,i)=>`
-                    <li>
-                      <span class="idx">${i+1}.</span>
-                      <span class="nm">${p.name}</span>
-                      <span class="val">${p.value}</span>
-                    </li>
-                  `).join('')}
-                </ol>
-              </div>
-            </div>
-          </section>
-        `;
-      }).join('');
+    async function loadData() {
+      try {
+        const res = await fetch('leaders.json?v=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load leaders.json');
+        return await res.json();
+      } catch (e) {
+        console.error(e);
+        // Fallback minimal structure so page still renders
+        return { updated: new Date().toISOString().slice(0,10), competitions: [] };
+      }
     }
 
-    render();
+    function render(DATA){
+      const wrap = $('#cards');
+      if (!DATA.competitions?.length){
+        wrap.innerHTML = `<p class="muted">No competitions found. Add data to <code>leaders.json</code>.</p>`;
+        return;
+      }
+      wrap.innerHTML = DATA.competitions.map(c => `
+        <section class="card" data-key="${c.key}">
+          <div class="hd">
+            <div class="ttl">${c.name}</div>
+            <div class="meta">${new Date(DATA.updated).toLocaleDateString()}</div>
+          </div>
+
+          <div class="record" title="All-Time Single-Season League Record">
+            <span>All-time single-season record:&nbsp;</span>
+            <b class="nm">${c.record.holder}</b>
+            <span class="muted">•</span>
+            <span>${c.record.goals}</span>
+            <span class="muted">goals</span>
+            <span class="muted">•</span>
+            <span>${c.record.season}</span>
+          </div>
+
+          <div class="cols">
+            <div class="col">
+              <h4>Current Top 3 Scorers</h4>
+              <ol class="list">
+                ${c.scorers.map((p,i)=>`
+                  <li>
+                    <span class="idx">${i+1}.</span>
+                    <span class="nm">${p.name}</span>
+                    <span class="val">${p.value}</span>
+                  </li>
+                `).join('')}
+              </ol>
+            </div>
+            <div class="col">
+              <h4>Current Top 3 Assisters</h4>
+              <ol class="list">
+                ${c.assisters.map((p,i)=>`
+                  <li>
+                    <span class="idx">${i+1}.</span>
+                    <span class="nm">${p.name}</span>
+                    <span class="val">${p.value}</span>
+                  </li>
+                `).join('')}
+              </ol>
+            </div>
+          </div>
+        </section>
+      `).join('');
+    }
+
+    loadData().then(render);
   </script>
 </body>
 </html>
+
+
 
 
 
