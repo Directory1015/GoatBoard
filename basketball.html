@@ -25,6 +25,7 @@
 
     .shell{max-width:var(--maxw); margin-inline:auto; padding:24px;}
 
+    /* Top nav */
     .topnav-wrap{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
@@ -87,13 +88,23 @@
     .labels .lab-left{font-weight:700; letter-spacing:.3px}
     .labels .lab-right{margin-left:auto; font-weight:800; letter-spacing:.4px}
 
-    .rank{ counter-reset: item; display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+    .rank{ counter-reset: item; display:grid; gap:10px; margin:0; padding:0; list-style:none; }
     .rank li{
       counter-increment: item; background: linear-gradient(180deg, #151a2a, #111625);
-      border:1px solid var(--divider); border-radius: var(--radius-lg); padding:12px 14px; display:grid; grid-template-columns: 22px 1fr; gap:12px; align-items:center;
+      border:1px solid var(--divider); border-radius: var(--radius-lg); padding:12px 14px;
+      display:grid; grid-template-columns: 22px 1fr; gap:12px; align-items:center;
     }
     .rank li::before{ content: counter(item) "."; font-weight:800; width:22px; text-align:right; color:var(--tx-dim); }
-    .rank .name{ font-weight:700; letter-spacing:.2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .rank .name{ font-weight:800; letter-spacing:.2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .badges{ display:flex; gap:8px; flex-wrap:wrap; grid-column: 2 / -1; margin-left:22px; margin-top:6px; }
+    .badge{
+      display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:800;
+      border:1px solid var(--divider); background:#0f1424; color:#cbd5e1;
+    }
+    .badge.champ{ color:#ffd76a; background:#1f1a08; border-color:#3a2f10; }
+    .badge.mvp{ color:#a7f3d0; }
+    .badge.fmvp{ color:#7dd3fc; }
+    .badge.dpoy{ color:#fca5a5; }
 
     .grid{ display:grid; gap:22px; grid-template-columns: 1fr; }
     @media (min-width: 880px){ .grid{ grid-template-columns: 1.2fr .8fr; } }
@@ -115,6 +126,7 @@
 </head>
 <body>
 
+  <!-- Top Nav -->
   <div class="topnav-wrap">
     <nav class="topnav" aria-label="Primary">
       <a href="index.html">🏠 Home</a>
@@ -154,82 +166,277 @@
           <span class="muted">(21st Century)</span>
         </div>
         <div class="content">
-          <div class="labels"><span class="lab-left">Player</span><span class="lab-right">—</span></div>
-          <ol class="rank">
-            <li><span class="name">LeBron James</span></li>
-            <li><span class="name">Stephen Curry</span></li>
-            <li><span class="name">Tim Duncan</span></li>
-            <li><span class="name">Kobe Bryant</span></li>
-            <li><span class="name">Kevin Durant</span></li>
+          <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
+          <ol class="rank" aria-label="Top 5 Basketball Players">
+            <li>
+              <span class="name">LeBron James</span>
+              <div class="badges">
+                <span class="badge champ">🏆 4</span>
+                <span class="badge mvp">MVP 4</span>
+                <span class="badge fmvp">FMVP 4</span>
+              </div>
+            </li>
+            <li>
+              <span class="name">Stephen Curry</span>
+              <div class="badges">
+                <span class="badge champ">🏆 4</span>
+                <span class="badge mvp">MVP 2</span>
+                <span class="badge fmvp">FMVP 1</span>
+              </div>
+            </li>
+            <li>
+              <span class="name">Tim Duncan</span>
+              <div class="badges">
+                <span class="badge champ">🏆 5</span>
+                <span class="badge mvp">MVP 2</span>
+                <span class="badge fmvp">FMVP 3</span>
+              </div>
+            </li>
+            <li>
+              <span class="name">Kobe Bryant</span>
+              <div class="badges">
+                <span class="badge champ">🏆 5</span>
+                <span class="badge mvp">MVP 1</span>
+                <span class="badge fmvp">FMVP 2</span>
+              </div>
+            </li>
+            <li>
+              <span class="name">Kevin Durant</span>
+              <div class="badges">
+                <span class="badge champ">🏆 2</span>
+                <span class="badge mvp">MVP 1</span>
+                <span class="badge fmvp">FMVP 2</span>
+              </div>
+            </li>
           </ol>
         </div>
       </section>
 
-      <!-- RIGHT COLUMN -->
+      <!-- RIGHT COLUMN: POSITIONS -->
       <section>
-        <div class="section">
+        <div class="section" aria-label="Top 5 by Basketball Position">
 
+          <!-- PG -->
           <details open>
             <summary><span class="sum-title">Point Guards (PG)</span><span class="sum-meta">Top 21st-century</span></summary>
             <div class="panel">
+              <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
               <ol class="rank">
-                <li><span class="name">Stephen Curry</span></li>
-                <li><span class="name">Chris Paul</span></li>
-                <li><span class="name">Steve Nash</span></li>
-                <li><span class="name">Jason Kidd</span></li>
-                <li><span class="name">Russell Westbrook</span></li>
+                <li>
+                  <span class="name">Stephen Curry</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 4</span>
+                    <span class="badge mvp">MVP 2</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Chris Paul</span>
+                  <div class="badges">
+                    <!-- Titles/MVP/FMVP none; keeping clean (no zero badges) -->
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Steve Nash</span>
+                  <div class="badges">
+                    <span class="badge mvp">MVP 2</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Jason Kidd</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Russell Westbrook</span>
+                  <div class="badges">
+                    <span class="badge mvp">MVP 1</span>
+                  </div>
+                </li>
               </ol>
             </div>
           </details>
 
+          <!-- SG -->
           <details>
             <summary><span class="sum-title">Shooting Guards (SG)</span><span class="sum-meta">Top 21st-century</span></summary>
             <div class="panel">
+              <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
               <ol class="rank">
-                <li><span class="name">Kobe Bryant</span></li>
-                <li><span class="name">Dwyane Wade</span></li>
-                <li><span class="name">James Harden</span></li>
-                <li><span class="name">Ray Allen</span></li>
-                <li><span class="name">Manu Ginóbili</span></li>
+                <li>
+                  <span class="name">Kobe Bryant</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 5</span>
+                    <span class="badge mvp">MVP 1</span>
+                    <span class="badge fmvp">FMVP 2</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Dwyane Wade</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 3</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">James Harden</span>
+                  <div class="badges">
+                    <span class="badge mvp">MVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Ray Allen</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 2</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Manu Ginóbili</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 4</span>
+                  </div>
+                </li>
               </ol>
             </div>
           </details>
 
+          <!-- SF -->
           <details>
             <summary><span class="sum-title">Small Forwards (SF)</span><span class="sum-meta">Top 21st-century</span></summary>
             <div class="panel">
+              <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
               <ol class="rank">
-                <li><span class="name">LeBron James</span></li>
-                <li><span class="name">Kevin Durant</span></li>
-                <li><span class="name">Kawhi Leonard</span></li>
-                <li><span class="name">Paul Pierce</span></li>
-                <li><span class="name">Carmelo Anthony</span></li>
+                <li>
+                  <span class="name">LeBron James</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 4</span>
+                    <span class="badge mvp">MVP 4</span>
+                    <span class="badge fmvp">FMVP 4</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Kevin Durant</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 2</span>
+                    <span class="badge mvp">MVP 1</span>
+                    <span class="badge fmvp">FMVP 2</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Kawhi Leonard</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 2</span>
+                    <span class="badge fmvp">FMVP 2</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Paul Pierce</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Carmelo Anthony</span>
+                  <div class="badges">
+                    <!-- no NBA titles/MVP/Finals MVP -->
+                  </div>
+                </li>
               </ol>
             </div>
           </details>
 
+          <!-- PF -->
           <details>
             <summary><span class="sum-title">Power Forwards (PF)</span><span class="sum-meta">Top 21st-century</span></summary>
             <div class="panel">
+              <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
               <ol class="rank">
-                <li><span class="name">Tim Duncan</span></li>
-                <li><span class="name">Kevin Garnett</span></li>
-                <li><span class="name">Dirk Nowitzki</span></li>
-                <li><span class="name">Giannis Antetokounmpo</span></li>
-                <li><span class="name">Pau Gasol</span></li>
+                <li>
+                  <span class="name">Tim Duncan</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 5</span>
+                    <span class="badge mvp">MVP 2</span>
+                    <span class="badge fmvp">FMVP 3</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Kevin Garnett</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge mvp">MVP 1</span>
+                    <span class="badge dpoy">DPOY 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Dirk Nowitzki</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge mvp">MVP 1</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Giannis Antetokounmpo</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge mvp">MVP 2</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                    <span class="badge dpoy">DPOY 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Pau Gasol</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 2</span>
+                  </div>
+                </li>
               </ol>
             </div>
           </details>
 
+          <!-- C -->
           <details>
             <summary><span class="sum-title">Centers (C)</span><span class="sum-meta">Top 21st-century</span></summary>
             <div class="panel">
+              <div class="labels"><span class="lab-left">Player</span><span class="lab-right">Badges</span></div>
               <ol class="rank">
-                <li><span class="name">Nikola Jokić</span></li>
-                <li><span class="name">Shaquille O’Neal</span></li>
-                <li><span class="name">Dwight Howard</span></li>
-                <li><span class="name">Yao Ming</span></li>
-                <li><span class="name">Joel Embiid</span></li>
+                <li>
+                  <span class="name">Nikola Jokić</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge mvp">MVP 3</span>
+                    <span class="badge fmvp">FMVP 1</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Shaquille O’Neal</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 4</span>
+                    <span class="badge mvp">MVP 1</span>
+                    <span class="badge fmvp">FMVP 3</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Dwight Howard</span>
+                  <div class="badges">
+                    <span class="badge champ">🏆 1</span>
+                    <span class="badge dpoy">DPOY 3</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Yao Ming</span>
+                  <div class="badges">
+                    <!-- no titles/MVP/Finals MVP -->
+                  </div>
+                </li>
+                <li>
+                  <span class="name">Joel Embiid</span>
+                  <div class="badges">
+                    <span class="badge mvp">MVP 1</span>
+                  </div>
+                </li>
               </ol>
             </div>
           </details>
@@ -252,4 +459,5 @@
 
 </body>
 </html>
+
 
